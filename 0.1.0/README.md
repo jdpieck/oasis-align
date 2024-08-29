@@ -17,14 +17,14 @@ Use this function to align two images.
 )
 ```
 
-> [!notice]
+> [!tip]
 > Whenever aligning **only** images, its best to use this function over the default `oasis-align`. __To learn more about why, check out the next section.__
 
 
 ## `oasis-align`
 Use this function to align content like text with other content like images or figures.
 
-> [!info]
+> [!note]
 > The parameters with defined values are the defaults and do not need to need to be included. 
 
 ```typst

@@ -1,11 +1,11 @@
 # oasis-align 
-`oasis-align` is a package that automatic sizes your content so that they are as best aligned as possible.
+`oasis-align` is a package that automatic sizes your content so that their heights are equal, perfect for placing content side by side. 
 
 # Configuration 
-There are two main functions associated with this package. The first is specifically target at aligning images, and the second is targeted at content in general
+There are two functions associated with this package. The first is specifically target at aligning images, and the second is targeted at content in general
 
 > [!important]
-> To change the size of the gutter in both functions, use `#set grid(gutter: length)`{:.typst}. This is case to allow for set rules which are not possible with user-defined functions. 
+> To change the size of the gutter in both functions, use `#set grid(gutter: length)`. This is case to allow for set rules which are not possible with user-defined functions. 
 
 ## `oasis-align-images`
 Use this function to align two images.

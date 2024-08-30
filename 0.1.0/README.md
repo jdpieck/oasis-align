@@ -45,26 +45,25 @@ Use this function to align content like text with other content like images or f
   debug: false          // boolean
 )
 ```
-### Parameters
-#### `int-frac`
+### `int-frac`
 The starting point of search process. You may want to change this value to reduce the number of iterations it takes to find the best alignment.
 
-#### 'tolerance'
+### `tolerance`
 The allowable difference in heights between `item1` and `item2`. The function will run until it has reached either this tolerance or `max-iterations`. Making this value larger may reduce the total number of iterations and result in a larger height difference between pieces of content.  
 
 > [!note]
 > Two pieces of content may not always be able to achieve the desired tolerance. In the case that it is unable to achieve a height difference less than `tolerance`, the function sizes the content to the iteration that had the least difference in height. 
 
-#### 'max-iterations'
+### `max-iterations`
 The maximum number of iterations the function is allowed to attempt before terminating. Increasing this number may allow you to achieve a smaller `tolerance`.
 
-#### `int-dir`
+### `int-dir`
 The initial direction that the dividing fraction is moved. Changing this value will change the initial direction.
 
 > [!note]
 > The program is hardcoded to change directions if a solution is not found in the selected direction. This parameter mainly serves to let you choose between multiple solutions which is common between an image and a block of text.
 
-#### 'debug'
+### `debug`
 A toggle to let you look inside the function and see what is happening. This is useful if you would like to understand why certain content may be incompatible and which of the parameters above could be changed to resolve the issue. 
 
 # FAQ

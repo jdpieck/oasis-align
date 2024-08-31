@@ -2,6 +2,8 @@
 `oasis-align` is a package that automatic sizes your content so that their heights are equal, perfect for placing content side by side. 
 
 # Examples
+## Image with Text
+![Animation of image being aligned with text](examples/image-with-text.gif)
 
 # Configuration 
 To use `oasis-align` in your document, start by importing the package like this:

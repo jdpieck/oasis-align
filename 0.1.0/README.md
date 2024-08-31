@@ -1,6 +1,12 @@
 # oasis-align 
 `oasis-align` is a package that automatic sizes your content so that their heights are equal, perfect for placing content side by side. 
 
+To use `oasis-align` in your document, start by importing the package like this:
+```typst
+#import "@preview/oasis-align:0.1.0": *
+```
+This will give you access to the two functions found under [configurations](#configuration).
+
 # Examples
 ## Image with Text
 ![Animation of image being aligned with text](examples/image-with-text.gif)
@@ -9,12 +15,7 @@
 ## Text with Text
 ![Animation of text being aligned with differently sized text](examples/text-with-text.gif)
 
-# Configuration 
-To use `oasis-align` in your document, start by importing the package like this:
-```typst
-#import "@preview/oasis-align:0.1.0": *
-```
-
+# Configuration
 There are two functions associated with this package. The first is specifically targeted at aligning images, and the second is targeted at content in general
 
 > [!important]
@@ -31,7 +32,7 @@ Use this function to align two images.
 ```
 
 > [!tip]
-> Whenever aligning **only** images, its best to use this function over the default `oasis-align`. _To learn more about why, check out the next section._
+> Whenever aligning **only** images, its best to use this function over the default `oasis-align`. _To learn more about why, check out [how it works](#how-it-works)._
 
 
 ## `oasis-align`

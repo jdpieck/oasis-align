@@ -4,6 +4,10 @@
 # Examples
 ## Image with Text
 ![Animation of image being aligned with text](examples/image-with-text.gif)
+## Image with Image
+![Animation of image being aligned with another image](examples/image-with-image.gif)
+## Text with Text
+![Animation of text being aligned with differently sized text](examples/text-with-text.gif)
 
 # Configuration 
 To use `oasis-align` in your document, start by importing the package like this:
@@ -82,6 +86,7 @@ Originally designed to allow for an image to be placed side-by-side with text, t
 
 The function starts by taking the available space and then spiting it using the `int-frac`. The content is then placed in a block with the width as determined above before measuring its height. Base on the `int-dir`, the split will be moved left or right using the bisection method until a solution within the `tolerance` has been found. In the case that 
 
+![Series of graphs visualizing the block width versus height of content](examples/graph-visualization.svg)
 
 # Nomenclature
 "Oasis" as in a fertile spot in a desert, where water is found.

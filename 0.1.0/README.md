@@ -81,18 +81,28 @@ A toggle to let you look inside the function and see what is happening. This is 
 ## `oasis-align-images`
 The function begins by determining width and height of the selected images. These values can then be used to solve set of linear equations, the first which states that the sum of the widths of the images (plus the gutter) should be equal to the available horizontal space, and the second which states that their heights should be equal.  
 
-If $w_1$ and $h_1$ are the width and height of `image1` and $w_2$ and $h_2$ are the width and height of `image2`, then the final width $w_1'$ of `image1` and the final width $w_2'$ of `image2` is
+If $w_1$ and $h_1$ are the width and height of `image1` and $w_2$ and $h_2$ are the width and height of `image2`, then the final width $w_1'$ of `image1` and the final width $w_2'$ of `image2` are
 
 $$w_1' = \left(\frac{h_1 w_2}{w_1 h_2} + 1 \right)^{-1} \qquad w_2' = \left(\frac{w_1 h_2}{h_1 w_2} + 1 \right)^{-1}$$
 
 ## `oasis-align`
-Originally designed to allow for an image to be placed side-by-side with text, this function takes an iterative approach to aligning the content. When changing the width of a block of text, the height does not scale linearly, but rather as a step function that follows an exponential trend. This prevents the use of an analytical methodology, and thus must be solved using an iterative approach.
+Originally designed to allow for an image to be placed side-by-side with text, this function takes an iterative approach to aligning the content. When changing the width of a block of text, the height does not scale linearly, but instead behaves as a step function that follows an exponential trend (the graph below has a simplified visualization of this). This prevents the use of an analytical methodology similar to the one used in `oasis-align-images`, and thus must be solved using an iterative approach.
 
 The function starts by taking the available space and then spiting it using the `int-frac`. The content is then placed in a block with the width as determined using the split from `int-frac` before measuring its height. Base on the `int-dir`, the split will be moved left or right using the bisection method until a solution within the `tolerance` has been found. In the case that a solution within the `tolerance` is not found with the `max-iterations`, the program terminates and uses the container width fraction that had the smallest difference in height. 
 
-Depending on the type of content, the function may find multiple solutions as seen in the first graph. The parameters `int-dir` and `int-frac` will allow you to choose between them. The left most solution on the first graph is an example of two pieces of content that are unable to achieve the desired `tolerance`.
-
 ![Series of graphs visualizing the block width versus height of content](examples/graph-visualization.svg)
+
+### Multiple Solutions (1st Graph)
+Depending on the type of content, the function may find multiple solutions. The parameters `int-dir` and `int-frac` will allow you to choose between them by changing the direction in which it iterates and changing the starting container width fraction respectively. 
+
+### No Solutions (2nd Graph)
+There are cases in which the text size is incompatible with an image. This can be because there is not enough or too much text, and regardless of how the content is resized, their heights do not match.   
+
+### Tolerance Not Reached (3rd Graph)
+In the case of having texts of different sizes (as seen in [the examples](#text-with-text)), the spacing between lines prevents the function from finding a solution that meets the `tolerance`, and thus the closest solution is used.
 
 <!-- # Nomenclature
 "Oasis" as in a fertile spot in a desert, where water is found. -->
+
+# Share With Me!
+If you end up using this package, please feel free to share with me how you used on the [GitHub Repository](https://github.com/jdpieck/oasis-align) or on Discord with `@jdpieck`. 

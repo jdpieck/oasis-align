@@ -83,11 +83,8 @@ The function starts by determining the ratio between the width and height of the
 
 If $a$ is the width and $b$ is the height of `image1` and $\alpha$ is the width and $\beta$ is the height of `image2`. Then the final width $w$ of `image1` and the final width $\omega$ of `image2` is
 
-$$
-w = \(\frac{b \alpha}{a \beta} + 1 \)^{-1} \\
-\omega = \(\frac{a \beta}{b \alpha} + 1 \)^{-1}
-
-$$
+$$w = \(\frac{b \alpha}{a \beta} + 1 \)^{-1} \\
+\omega = \(\frac{a \beta}{b \alpha} + 1 \)^{-1}$$
 
 ## `oasis-align`
 Originally designed to allow for an image to be placed side-by-side with text, this function takes an iterative approach to aligning the content. When changing the width of a block of text, the height does not scale linearly, but rather as a step function that follows an exponential trend. This prevents the use of an analytical methodology, and thus must be solved using an iterative approach.

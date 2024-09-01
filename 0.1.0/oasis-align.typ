@@ -1,11 +1,11 @@
 #let oasis-align(
-  item1, 
-  item2, 
   int-frac: 0.5, 
   tolerance: 0.001pt, 
   max-iterations: 50, 
   int-dir: 1, 
-  debug: false
+  debug: false,
+  item1, 
+  item2, 
 ) = context {
 
   // Debug functions
@@ -29,7 +29,7 @@
     let fraction = int-frac
     let upper-bound = 1
     let lower-bound = 0 
-    let diff
+    let diff      // Difference in heights of item1 and item2
     let dir = int-dir
     let min-dif = container
     let best-fraction
@@ -58,11 +58,13 @@
       // Display current values
       if debug [ + Diff: #diff #h(1fr) item1: (#width1, #height1) #h(1fr) item2: (#width2, #height2)]
 
+      // Check if within tolerance
       if diff < tolerance or n >= max-iterations {
         if debug {heads-up("Tolerance reached!")}
         grid(columns: (width1, width2), item1, item2)
         break
       }
+      // Use bisection method by setting new bounds
       else if height1*dir > height2*dir {upper-bound = fraction}
       else if height1*dir < height2*dir {lower-bound = fraction}
       else {error("Unknown Error")}
@@ -70,8 +72,12 @@
       // Bisect length between bounds to get new fraction
       fraction = (lower-bound+upper-bound)/2
 
+      // If there is no solution in the inital direction, change directions and reset the function.
       if width1 < 1pt or width2 < 1pt {
-        if swap-check {error("The selected content is in compatable"); break}
+        // If this is the second time that a solution as not been found, termiate the function.
+        if swap-check {error([The selected content is not compatible. To learn more, turn on debug mode by adding 
+          #h(.4em) #box(outset: .2em, fill: luma(92%), radius: .2em, ```typst debug: true```) #h(.4em) 
+          to the function]); break}
         swap-check = true
         dir = dir *-1
         fraction = int-frac
@@ -80,12 +86,10 @@
         n = 0
       
       }
+      // Change fraction so value with least height difference if tolereance was not achieved
       if n >= max-iterations - 1 {fraction = best-fraction}
     }
-      
     if n >= max-iterations and debug {error("Maximum number of iterations reached!")}
-
-   
   })
 }
 

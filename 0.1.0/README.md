@@ -42,13 +42,13 @@ Use this function to align content like text with other content like images or f
 
 ```typst
 #oasis-align(
-  item1,                // content
-  item2,                // content
   int-frac: 0.5,        // decimal between 0 and 1
   tolerance: 0.001pt,   // length
   max-iterations: 50,   // integer greater than 0
   int-dir: 1,           // 1 or -1
   debug: false          // boolean
+  item1,                // content
+  item2,                // content
 )
 ```
 ### `int-frac`

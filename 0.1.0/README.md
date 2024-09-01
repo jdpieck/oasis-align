@@ -79,9 +79,9 @@ A toggle to let you look inside the function and see what is happening. This is 
 
 # How It Works
 ## `oasis-align-images`
-The function starts by determining the ratio between the width and height of the selected images. This ratio can then be used to solve set of linear equations that give the width that each image should be to have equal height. 
+The function begins by determining width and height of the selected images. These values can then be used to solve set of linear equations, the first which states that the sum of the widths of the images (plus the gutter) should be equal to the available horizontal space, and the second which states that their heights should be equal.  
 
-If $w_1$ and $h_1 are the width and height of `image1` and $w_2$ and $h_2$ are the width and height of `image2`, then the final width $w_1'$ of `image1` and the final width $w_2'$ of `image2` is
+If $w_1$ and $h_1$ are the width and height of `image1` and $w_2$ and $h_2$ are the width and height of `image2`, then the final width $w_1'$ of `image1` and the final width $w_2'$ of `image2` is
 
 $$w_1' = \left(\frac{h_1 w_2}{w_1 h_2} + 1 \right)^{-1} \qquad w_2' = \left(\frac{w_1 h_2}{h_1 w_2} + 1 \right)^{-1}$$
 

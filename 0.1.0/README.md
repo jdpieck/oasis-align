@@ -1,5 +1,5 @@
 # oasis-align 
-`oasis-align` is a package that automatic sizes your content so that their heights are equal, perfect for placing content side by side. 
+`oasis-align` is a package that automatic sizes your content so that their heights are equal, allowing you to cleanly place content side by side. 
 
 To use `oasis-align` in your document, start by importing the package like this:
 ```typst
@@ -16,7 +16,7 @@ This will give you access to the two functions found under [configurations](#con
 ![Animation of text being aligned with differently sized text](examples/text-with-text.gif)
 
 # Configuration
-There are two functions associated with this package. The first is specifically targeted at aligning images, and the second is targeted at content in general
+There are two functions associated with this package. The first is specifically targeted at [aligning images](#oasis-align-images), and the second is targeted at [content in general](#oasis-align).
 
 > [!important]
 > To change the size of the gutter in both functions, use `#set grid(column-gutter: length)`. This is case to allow for set rules which are not possible with user-defined functions. 
@@ -53,13 +53,13 @@ Use this function to align content like text with other content like images or f
 )
 ```
 ### `int-frac`
-The starting point of search process. You may want to change this value to reduce the number of iterations it takes to find the best alignment.
+The starting point of search process. Changing this value may reduce the total number of iterations of the function or find an [alternate solution](#oasis-align-2).
 
 ### `tolerance`
-The allowable difference in heights between `item1` and `item2`. The function will run until it has reached either this tolerance or `max-iterations`. Making this value larger may reduce the total number of iterations and result in a larger height difference between pieces of content.  
+The allowable difference in heights between `item1` and `item2`. The function will run until it has reached either this `tolerance` or `max-iterations`. Making `tolerance` larger may reduce the total number of iterations but result in a larger height difference between pieces of content.  
 
 > [!note]
-> Two pieces of content may not always be able to achieve the desired tolerance. In the case that it is unable to achieve a height difference less than `tolerance`, the function sizes the content to the iteration that had the least difference in height. 
+> Two pieces of content may not always be able to achieve the desired `tolerance`. In that case, the function sizes the content to the iteration that had the least difference in height. _Check out [how it works](#oasis-align-2) if you know why the function can't achieve the desired `tolerance`._
 
 ### `max-iterations`
 The maximum number of iterations the function is allowed to attempt before terminating. Increasing this number may allow you to achieve a smaller `tolerance`.
@@ -68,7 +68,7 @@ The maximum number of iterations the function is allowed to attempt before termi
 The initial direction that the dividing fraction is moved. Changing this value will change the initial direction.
 
 > [!note]
-> The program is hardcoded to change directions if a solution is not found in the selected direction. This parameter mainly serves to let you choose between multiple solutions which is common between an image and a block of text.
+> The program is hardcoded to change directions if a solution is not found in the selected direction. This parameter mainly serves to let you easily choose between [multiple solutions](#oasis-align-2).
 
 ### `debug`
 A toggle to let you look inside the function and see what is happening. This is useful if you would like to understand why certain content may be incompatible and which of the parameters above could be changed to resolve the issue. 
@@ -85,9 +85,11 @@ The function starts by determining the ratio between the width and height of the
 ## `oasis-align`
 Originally designed to allow for an image to be placed side-by-side with text, this function takes an iterative approach to aligning the content. When changing the width of a block of text, the height does not scale linearly, but rather as a step function that follows an exponential trend. This prevents the use of an analytical methodology, and thus must be solved using an iterative approach.
 
-The function starts by taking the available space and then spiting it using the `int-frac`. The content is then placed in a block with the width as determined above before measuring its height. Base on the `int-dir`, the split will be moved left or right using the bisection method until a solution within the `tolerance` has been found. In the case that 
+The function starts by taking the available space and then spiting it using the `int-frac`. The content is then placed in a block with the width as determined using the split from `int-frac` before measuring its height. Base on the `int-dir`, the split will be moved left or right using the bisection method until a solution within the `tolerance` has been found. In the case that a solution within the `tolerance` is not found with the `mad-iterations`, the program terminates and uses the container width fraction that had the smallest difference in height. 
+
+Depending on the type of content, the function may find multiple solutions as seen in the first graph. The parameters `int-dir` and `int-frac` will allow you to choose between them. The left most solution on the first graph is an example of two pieces of content that are unable to achieve the desired `tolerance`.
 
 ![Series of graphs visualizing the block width versus height of content](examples/graph-visualization.svg)
 
-# Nomenclature
-"Oasis" as in a fertile spot in a desert, where water is found.
+<!-- # Nomenclature
+"Oasis" as in a fertile spot in a desert, where water is found. -->

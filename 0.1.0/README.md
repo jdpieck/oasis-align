@@ -105,4 +105,4 @@ In the case of having texts of different sizes (as seen in [the examples](#text-
 "Oasis" as in a fertile spot in a desert, where water is found. -->
 
 # Share With Me!
-If you end up using this package, please feel free to share with me how you used on the [GitHub Repository](https://github.com/jdpieck/oasis-align) or on Discord with `@jdpieck`. 
+If you end up using this package, please feel free to share with me how you used under "Discussions" on the [GitHub Repository](https://github.com/jdpieck/oasis-align) or on Discord with `@jdpieck`. 

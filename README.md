@@ -26,8 +26,8 @@ Use this function to align two images.
 
 ```typst
 #oasis-align-images(
-    "path/to/image1",
-    "path/to/image2"
+    image("path/to/image1"),
+    image("path/to/image2")
 )
 ```
 

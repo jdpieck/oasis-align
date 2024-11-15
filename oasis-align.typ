@@ -9,8 +9,8 @@
 ) = context {
 
   // Debug functions
-  let error(message) = text(red, weight: "bold", message)
-  let heads-up(message) = text(orange, weight: "bold", message)
+  let error(message) = if debug {text(red, weight: "bold", message)} else {panic(message)}
+  let heads-up(message) = if debug {text(orange, weight: "bold", message)}
 
   // Check that inputs are valid
   if int-frac <= 0 or int-frac >= 1 {return(error("int-frac must be between 0 and 1!"))}
@@ -60,7 +60,7 @@
 
       // Check if within tolerance
       if diff < tolerance or n >= max-iterations {
-        if debug {heads-up("Tolerance reached!")}
+        heads-up("Tolerance reached!")
         grid(columns: (width1, width2), item1, item2)
         break
       }
@@ -75,9 +75,15 @@
       // If there is no solution in the inital direction, change directions and reset the function.
       if width1 < 1pt or width2 < 1pt {
         // If this is the second time that a solution as not been found, termiate the function.
-        if swap-check {error([The selected content is not compatible. To learn more, turn on debug mode by adding 
-          #h(.4em) #box(outset: .2em, fill: luma(92%), radius: .2em, ```typst debug: true```) #h(.4em) 
-          to the function]); break}
+        if swap-check {
+          error(
+            "The selected content is not compatible. To learn more, " +
+            if debug {"view the debug info above"}
+            else {"turn on debug mode by adding `debug: true`) to the function"}
+            + "."
+          )
+          break
+        }
         swap-check = true
         dir = dir *-1
         fraction = int-frac

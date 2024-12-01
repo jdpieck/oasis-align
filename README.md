@@ -26,7 +26,7 @@ and follow the instructions found under [configurations](#configuration).
   int-dir: 1,           // 1 or -1
   int-frac: 0.5,        // decimal between 0 and 1
   tolerance: 0.001pt,   // length
-  max-iterations: 50,   // integer greater than 0
+  max-iterations: 30,   // integer greater than 0
   debug: false          // boolean
   item1,                // content
   item2,                // content

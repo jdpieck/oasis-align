@@ -3,7 +3,7 @@
   int-dir: 1, 
   int-frac: 0.5, 
   tolerance: 0.001pt, 
-  max-iterations: 50, 
+  max-iterations: 30, 
   debug: false,
   item1, 
   item2, 
@@ -71,8 +71,9 @@
       else if diff > min-dif {
         heads-up([`diff` is larger than `min-diff`.])
       }
-      else {warning([`diff` did not change])}
+      else {warning([`min-diff` did not change])}
      
+      if diff < tolerance {success("Tolerance Reached!")}
 
       // Check if within tolerance. If so, display
       if diff < tolerance or n >= max-iterations or swap-check >= 2 {
@@ -95,11 +96,11 @@
       // Bisect length between bounds to get new fraction
       fraction = (lower-bound+upper-bound)/2
 
-      // If there is no solution in the inital direction, change directions and reset the function.
+      // If there is no solution in the initial direction, change directions and reset the function.
       if width1 < container*0.05 or width2 < container*0.05 {
-        // If this is the second time that a solution as not been found, termiate the function.
+        // If this is the second time that a solution as not been found, terminate the function.
         if swap-check >= 1 {
-          warning([The selected content cannot be more closely aligned. ])
+          warning([The selected content cannot be more closely aligned. Try changing `int-frac` to give the function a different starting point.])
           // break
         }
 
@@ -112,10 +113,12 @@
         // n = 0
       
       }
-      // Change fraction so value with least height difference if tolereance was not achieved
-      if n >= max-iterations - 1 {fraction = best-fraction}
+      // Change fraction so value with least height difference if tolerance was not achieved
+      if n >= max-iterations - 1 {
+        warning([Maximum number of iterations reached! Setting fraction to fraction with smallest `diff`])
+        fraction = best-fraction
+      }
     }
-    if n >= max-iterations and debug {error("Maximum number of iterations reached!")}
   })
 }
 

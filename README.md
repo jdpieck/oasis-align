@@ -5,7 +5,7 @@ To use `oasis-align` in your document, start by importing the package like this:
 ```typst
 #import "@preview/oasis-align:0.1.0": *
 ```
-and follow the instructions found under [configurations](#configuration).
+and follow the instructions found under [configuration](#configuration).
 
 # Examples
 ## Image with Text
@@ -59,7 +59,7 @@ The allowable difference in heights between `item1` and `item2`. The function wi
 The maximum number of iterations the function is allowed to attempt before terminating. Increasing this number may allow you to achieve a smaller `tolerance`.
 
 ### `debug`
-A toggle that lets you look inside the function to see what is happening. This is useful if you would like to understand why certain content may be incompatible and which of the parameters above could be changed to resolve the issue. 
+A toggle that lets you look inside the function to see what is happening. Enable this if you would like a log of the function process and which of the parameters above could be changed to resolve the issue. 
 
 <!-- # FAQ
 
@@ -67,9 +67,9 @@ A toggle that lets you look inside the function to see what is happening. This i
 
 
 # How It Works
-Originally designed to allow for an image to be placed side-by-side with text, this function takes an iterative approach to aligning the content. When changing the width of a block of text, the height does not scale linearly, but instead behaves as a step function that follows an exponential trend (the graph below has a simplified visualization of this). This prevents the use of an analytical methodology similar to the one used in `oasis-align-images`, and thus must be solved using an iterative approach.
+Originally designed to allow for an image to be placed side-by-side with text, this function takes an iterative approach to aligning the content. When changing the width of a block of text, the height does not scale linearly, but instead behaves as a step function that follows an exponential trend (the graph below has a simplified visualization of this). This prevents the use of an analytical methodology and thus must be solved using an iterative approach.
 
-The function starts by taking the available space and then splitting it using the `int-frac`. The content is then placed in a block with the width as determined using the split from `int-frac` before measuring its height. Based on the `int-dir`, the split will be moved left or right using the bisection method until a solution within the `tolerance` has been found. In the case that a solution within the `tolerance` is not found with the `max-iterations`, the program terminates and uses the container width fraction that had the smallest difference in height. 
+The function starts by taking the available space and then splitting it using the `int-frac`. The content is then placed in a block with the width as determined using the split from `int-frac` before measuring its height. Based on the `int-dir`, the split will be moved left or right using the bisection method until a solution within the `tolerance` has been found. In the case that a solution within the `tolerance` is not found within the `max-iterations`, the program terminates and uses the container width fraction that had the smallest difference in height. 
 
 ![Series of graphs visualizing the block width versus height of content](examples/graph-visualization.svg)
 
@@ -80,10 +80,25 @@ Depending on the type of content, the function may find multiple solutions. The 
 There are cases in which the text size is incompatible with an image. This can be because there is not enough or too much text, and regardless of how the content is resized, their heights do not match.   
 
 ### Tolerance Not Reached (3rd Graph)
-In the case of having texts of different sizes (as seen in [the examples](#text-with-text)), the spacing between lines prevents the function from finding a solution that meets the `tolerance`, and thus the closest solution is used.
+In the case of having texts of different sizes (as seen in [the examples](#text-with-text)), the spacing between lines prevents the function from finding a solution that meets the `tolerance` and thus the closest solution is used.
 
 <!-- # Nomenclature
 "Oasis" as in a fertile spot in a desert, where water is found. -->
 
-# Share With Me!
-If you end up using this package, please feel free to share how you used it under "Discussions" on the [GitHub Repository](https://github.com/jdpieck/oasis-align) or on Discord with `@jdpieck`. 
+# Future Work
+### Skipping Close Approximations
+The function will skip over near-solutions under certain conditions. This is a consequence of the bisection method, which is great for finding exact solutions, but not approximations. To address this, a large portion of the code would need to be rewritten. 
+
+In the mean time, you can get around this by playing with `int-frac`.
+
+### Possible Integration with [`wrap-it`](https://github.com/ntjess/wrap-it)
+Seeing as the uses cases for `oasis-align` and [`wrap-it`](https://github.com/ntjess/wrap-it) are very similar, a combined package could prove to be extremely useful. Implementation would allow for text content to overflow after a solution can no longer be found using `oasis-align`.
+
+# Contributing and sharing
+If you have suggestions or feedback, please feel free to create an [issue on GitHub](https://github.com/jdpieck/oasis-align/issues).
+
+If you end up using this package, please feel free to share how you used under [discussion on GitHub](https://github.com/jdpieck/oasis-align/discussions).
+
+Thanks for reading to the end!
+
+\- Jason

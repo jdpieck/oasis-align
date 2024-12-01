@@ -96,8 +96,8 @@
 #let oasis-align-images(image1, image2) = context {
 
   // Find dimentional ratio between images
-  let block1 = measure(image(image1, width: 1in))
-  let block2 = measure(image(image2, width: 1in))
+  let block1 = measure(image1)
+  let block2 = measure(image2)
   let ratio = (block1.width/block1.height)*block2.height/block2.width
 
   layout(size => {
@@ -112,8 +112,8 @@
 
     // Display images in grid
     grid(columns: (calcWidth1, calcWidth2), gutter: gutter,
-      image(image1),
-      image(image2)
+      image1,
+      image2
     ) 
   })
 }

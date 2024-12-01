@@ -22,7 +22,7 @@
 #oasis-align(
   int-dir: -1, 
   // int-frac: .46,
-  debug: true,
+  // debug: true,
   cat, 
   words
 )
@@ -32,13 +32,13 @@
 //   words
 // )
 
-// #oasis-align(
-//   debug: true,
-//   swap: true,
-//   image("blanket.jpg"), 
-//   image("box.jpg"),
-// )
-// 
+#oasis-align(
+  // debug: true,
+  // swap: true,
+  image("blanket.jpg"), 
+  image("box.jpg"),
+)
+
 #oasis-align(
   // debug: true,
   lorem(50),
@@ -50,7 +50,7 @@
 //   lorem(40)
 // )
 
-// #oasis-align(
-//   text(.8em)[This is a passage of text that has smaller size. You might want this for a quote or some cool information that you want to share with the reader.],
-//   [This is a regularly sized passage of text. This passage has the main content for the things that you are writing about today.]
-// )
+#oasis-align(
+  text(.8em)[This is a passage of text that has smaller size. You might want this for a quote or some cool information that you want to share with the reader.],
+  [This is a regularly sized passage of text. This passage has the main content for the things that you are writing about today.]
+)

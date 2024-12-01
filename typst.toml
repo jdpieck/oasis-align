@@ -8,4 +8,4 @@ description = "Cleanly place content side by side with equal heights using autom
 repository = "https://github.com/jdpieck/oasis-align"
 keywords = ["align", "content", "grid", "wrap"]
 categories = ["layout"]
-exclude = ["examples"]
+exclude = ["examples", "CHANGELOG.md"]

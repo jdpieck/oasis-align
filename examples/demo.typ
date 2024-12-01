@@ -8,13 +8,16 @@
 #set grid(column-gutter: .2in)
 
 
-// #oasis-align(int-dir:-1, 
-//   image("box.jpg"), 
-//   [This is me writing about my cat. I love my cat. He is the best of cats. I give him head scratches until he gets mad at me. He then he starts swatting at my hand. This goes on until my hand gets scratched. dsfdfsdfsd]
-// )
+#oasis-align(int-dir:-1, debug:true,
+  image("box.jpg"), 
+  [This is me writing about my cat. I love my cat. He is the best of cats. I give him head scratches until he gets mad at me. He then he starts swatting at my hand. This goes on until my hand gets scratched. 
+  // dsfdggs7 sdjk f sdfkj sdfkjs dkfj dskj skdf jdsk dsk skd ksd ksd sdk sk skdj ks sdkskfjsdkfjskdfjsk kdsjf ksdfjskdj ks jkd jskdksf ksd sdkskdfjsdfk skdjf kdsjf kdsfjskdfjsdk
+  ]
+)
 
 
 #oasis-align(
+  debug: true,
   swap: true,
   image("blanket.jpg"), 
   image("box.jpg"),

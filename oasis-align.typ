@@ -35,19 +35,19 @@
     let min-dif = container
     let best-fraction
     let n = 0
-    let swap-check = false
+    let swap-check = 0
 
     // Loop max to prevent infinite loop
     while n < max-iterations {
       n = n + 1
 
       // Set starting bounds
-      width1 = fraction*(container - gutter)
+      width1 = (fraction*(container - gutter))
       width2 = (1 - fraction)*(container - gutter)
 
       // Measure height of content and find difference
-      height1 = measure(block(width: width1, item1)).height
-      height2 = measure(block(width: width2, item2)).height
+      height1 = measure(block(width: width1, item1)).height.to-absolute()
+      height2 = measure(block(width: width2, item2)).height.to-absolute()
       diff = calc.abs(height1 - height2)
 
       // Keep track of the best fraction
@@ -57,10 +57,10 @@
       }
      
       // Display current values
-      if debug [ + Diff: #diff #h(1fr) item1: (#width1, #height1) #h(1fr) item2: (#width2, #height2)]
+      if debug [ + Diff: #diff #h(1em) Frac: #fraction \ item1: (#width1, #height1)\ item2: (#width2, #height2)]
 
       // Check if within tolerance. If so, display
-      if diff < tolerance or n >= max-iterations {
+      if diff < tolerance or n >= max-iterations or swap-check >= 2 {
         if debug {heads-up("Tolerance reached!")}
         if swap {grid(columns: (width2, width1), item2, item1)}
         else {grid(columns: (width1, width2), item1, item2)}
@@ -70,6 +70,7 @@
       else if height1*dir > height2*dir {upper-bound = fraction}
       else if height1*dir < height2*dir {lower-bound = fraction}
       else {error("Unknown Error")}
+      
 
       // Bisect length between bounds to get new fraction
       fraction = (lower-bound+upper-bound)/2
@@ -77,14 +78,14 @@
       // If there is no solution in the inital direction, change directions and reset the function.
       if width1 < 1pt or width2 < 1pt {
         // If this is the second time that a solution as not been found, termiate the function.
-        if swap-check {
+        if swap-check >= 1 {
           error([The selected content is not compatible. To learn more, turn on debug mode by adding 
           #h(.4em) #box(outset: .2em, fill: luma(92%), radius: .2em, ```typst debug: true```) #h(.4em) 
           to the function])
-          break
+          // break
         }
 
-        swap-check = true
+        swap-check = swap-check + 1
         dir = dir *-1
         fraction = int-frac
         upper-bound = 1

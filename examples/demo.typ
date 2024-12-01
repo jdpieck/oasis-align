@@ -7,21 +7,29 @@
 #set par(justify: true)
 #set grid(column-gutter: .2in)
 
+#let words = [This is me writing about my cat. I love my cat. He is the best of cats. I give him head scratches until he gets mad at me. He then he starts swatting at my hand. This goes on until my hand gets scratched. 
+dsfdggs7 sdjk f sdfkj sdfkjs dkfj dskj skdf jdsk dsk skd ksd ksd sdk sk skdj ks sdkskfjsdkfjskdfjsk kdsjf ksdfjskdj ks jkd jskdksf ksd sdkskdfjsdfk skdjf kdsjf kdsfjskdfjsdk gfd gf dfgdfg dfg dfg df
+]
 
-#oasis-align(int-dir:-1, debug:true,
-  image("box.jpg"), 
-  [This is me writing about my cat. I love my cat. He is the best of cats. I give him head scratches until he gets mad at me. He then he starts swatting at my hand. This goes on until my hand gets scratched. 
-  // dsfdggs7 sdjk f sdfkj sdfkjs dkfj dskj skdf jdsk dsk skd ksd ksd sdk sk skdj ks sdkskfjsdkfjskdfjsk kdsjf ksdfjskdj ks jkd jskdksf ksd sdkskdfjsdfk skdjf kdsjf kdsfjskdfjsdk
-  ]
+#let cat = image("blanket.jpg")
+
+#oasis-align(int-dir:1, 
+debug:true,
+  cat, 
+  words
 )
 
-
-#oasis-align(
-  debug: true,
-  swap: true,
-  image("blanket.jpg"), 
-  image("box.jpg"),
+#grid(columns: (1fr, 1.19fr),  
+  cat, 
+  words
 )
+
+// #oasis-align(
+//   debug: true,
+//   swap: true,
+//   image("blanket.jpg"), 
+//   image("box.jpg"),
+// )
 
 
 // #oasis-align(

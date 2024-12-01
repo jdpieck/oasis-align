@@ -10,12 +10,21 @@
 ) = context {
 
   // Debug functions
-  let error(message) = text(red, weight: "bold", message)
-  let heads-up(message) = text(orange, weight: "bold", message)
+  let heads-up(message) = if debug {block(text(blue, weight: "bold", message))}
+  let warning(message) = if debug {block(text(red, weight: "bold", message))}
+  let success(message) = if debug {block(text(green, weight: "bold", message))}
+
+
+  show raw.where(block: false): box.with(
+    fill: luma(240),
+    inset: (x: 3pt, y: 0pt),
+    outset: (y: 3pt),
+    radius: 2pt,
+  )
 
   // Check that inputs are valid
-  if int-frac <= 0 or int-frac >= 1 {return(error("Initial fraction must be between 0 and 1!"))}
-  if int-dir != -1 and int-dir != 1 {return(error("Direction must be 1 or -1!"))}
+  if int-frac <= 0 or int-frac >= 1 {panic("Initial fraction must be between 0 and 1!")}
+  if int-dir != -1 and int-dir != 1 {panic("Direction must be 1 or -1!")}
   
   // use layout to measure container
   layout(size => {
@@ -49,48 +58,58 @@
       height1 = measure(block(width: width1, item1)).height.to-absolute()
       height2 = measure(block(width: width2, item2)).height.to-absolute()
       diff = calc.abs(height1 - height2)
+      
+      // Display current values
+      if debug [ #heading(level: 3, [#n]) item1: (#width1, #height1)\ item2: (#width2, #height2)\ Height Diff: #diff #h(1em) Min Diff: #min-dif \ Frac: #fraction \ Upper: #upper-bound #h(1em) Lower: #lower-bound ]
 
       // Keep track of the best fraction
       if diff < min-dif {
-        min-dif = diff
+        heads-up([`diff` is smaller. Assigning new `min-diff`...])
         best-fraction = fraction
+        min-dif = diff
       }
+      else if diff > min-dif {
+        heads-up([`diff` is larger than `min-diff`.])
+      }
+      else {warning([`diff` did not change])}
      
-      // Display current values
-      if debug [ + Diff: #diff #h(1em) Frac: #fraction \ item1: (#width1, #height1)\ item2: (#width2, #height2)]
 
       // Check if within tolerance. If so, display
       if diff < tolerance or n >= max-iterations or swap-check >= 2 {
-        if debug {heads-up("Tolerance reached!")}
+        success([Displaying output...])
         if swap {grid(columns: (width2, width1), item2, item1)}
         else {grid(columns: (width1, width2), item1, item2)}
         break
       }
       // Use bisection method by setting new bounds
-      else if height1*dir > height2*dir {upper-bound = fraction}
-      else if height1*dir < height2*dir {lower-bound = fraction}
-      else {error("Unknown Error")}
-      
+      else if height1*dir > height2*dir {
+        upper-bound = fraction
+        heads-up([Reassigning `upper-bound`...])
+      }
+      else if height1*dir < height2*dir {
+        lower-bound = fraction
+        heads-up([Reassigning `lower-bound`...])
+      }
+      else {panic("Unknown Error")}
 
       // Bisect length between bounds to get new fraction
       fraction = (lower-bound+upper-bound)/2
 
       // If there is no solution in the inital direction, change directions and reset the function.
-      if width1 < 1pt or width2 < 1pt {
+      if width1 < container*0.05 or width2 < container*0.05 {
         // If this is the second time that a solution as not been found, termiate the function.
         if swap-check >= 1 {
-          error([The selected content is not compatible. To learn more, turn on debug mode by adding 
-          #h(.4em) #box(outset: .2em, fill: luma(92%), radius: .2em, ```typst debug: true```) #h(.4em) 
-          to the function])
+          warning([The selected content cannot be more closely aligned. ])
           // break
         }
 
+        warning("Changing directions...")
         swap-check = swap-check + 1
         dir = dir *-1
         fraction = int-frac
         upper-bound = 1
         lower-bound = 0 
-        n = 0
+        // n = 0
       
       }
       // Change fraction so value with least height difference if tolereance was not achieved
@@ -99,30 +118,5 @@
     if n >= max-iterations and debug {error("Maximum number of iterations reached!")}
   })
 }
-
-// #let oasis-align-images(image1, image2) = context {
-
-//   // Find dimentional ratio between images
-//   let block1 = measure(image1)
-//   let block2 = measure(image2)
-//   let ratio = (block1.width/block1.height)*block2.height/block2.width
-
-//   layout(size => {
-//     // Measure size of continaner
-//     let container = size.width
-//     let gutter = if grid.column-gutter == () {0pt} 
-//                  else {grid.column-gutter.at(0)}
-
-//     // Set widths of images
-//     let calcWidth1 = (container - gutter)/(1/ratio + 1)
-//     let calcWidth2 = (container - gutter)/(ratio + 1)
-
-//     // Display images in grid
-//     grid(columns: (calcWidth1, calcWidth2), gutter: gutter,
-//       image1,
-//       image2
-//     ) 
-//   })
-// }
 
 

@@ -3,7 +3,7 @@
 
 To use `oasis-align` in your document, start by importing the package like this:
 ```typst
-#import "@preview/oasis-align:0.1.0": *
+#import "@preview/oasis-align:0.2.0": *
 ```
 and follow the instructions found under [configuration](#configuration).
 
@@ -86,8 +86,11 @@ In the case of having texts of different sizes (as seen in [the examples](#text-
 "Oasis" as in a fertile spot in a desert, where water is found. -->
 
 # Future Work
+### Allow for Relative `grid.column-gutter` sizes
+Presently, I am unable to make the `grid.column-gutter`absolute using the `.to-absolute()` method. Including a relative length in `#set grid(column-gutter)` will throw an error. 
+
 ### Skipping Close Approximations
-The function will skip over near-solutions under certain conditions. This is a consequence of the bisection method, which is great for finding exact solutions, but not approximations. To address this, a large portion of the code would need to be rewritten. 
+The function will skip over near-solutions under certain conditions. This is a consequence of the bisection method, which is great for finding exact solutions, but not approximations. To address this, a large portion of the code would likely need to be rewritten. 
 
 In the mean time, you can get around this by playing with `int-frac`.
 

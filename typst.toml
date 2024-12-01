@@ -1,6 +1,6 @@
 [package]
 name = "oasis-align"
-version = "0.1.0"
+version = "0.2.0"
 entrypoint = "oasis-align.typ"
 authors = ["@jdpieck"]
 license = "MIT"

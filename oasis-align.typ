@@ -31,6 +31,7 @@
     let container = size.width
     let gutter = if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
                  else {grid.column-gutter.at(0)}
+    // gutter = gutter.to-absolute() doesn't work idk
     
     let width1    // Bounding width of item1
     let width2    // Bounding width of item2

@@ -93,29 +93,29 @@
   })
 }
 
-#let oasis-align-images(image1, image2) = context {
+// #let oasis-align-images(image1, image2) = context {
 
-  // Find dimentional ratio between images
-  let block1 = measure(image1)
-  let block2 = measure(image2)
-  let ratio = (block1.width/block1.height)*block2.height/block2.width
+//   // Find dimentional ratio between images
+//   let block1 = measure(image1)
+//   let block2 = measure(image2)
+//   let ratio = (block1.width/block1.height)*block2.height/block2.width
 
-  layout(size => {
-    // Measure size of continaner
-    let container = size.width
-    let gutter = if grid.column-gutter == () {0pt} 
-                 else {grid.column-gutter.at(0)}
+//   layout(size => {
+//     // Measure size of continaner
+//     let container = size.width
+//     let gutter = if grid.column-gutter == () {0pt} 
+//                  else {grid.column-gutter.at(0)}
 
-    // Set widths of images
-    let calcWidth1 = (container - gutter)/(1/ratio + 1)
-    let calcWidth2 = (container - gutter)/(ratio + 1)
+//     // Set widths of images
+//     let calcWidth1 = (container - gutter)/(1/ratio + 1)
+//     let calcWidth2 = (container - gutter)/(ratio + 1)
 
-    // Display images in grid
-    grid(columns: (calcWidth1, calcWidth2), gutter: gutter,
-      image1,
-      image2
-    ) 
-  })
-}
+//     // Display images in grid
+//     grid(columns: (calcWidth1, calcWidth2), gutter: gutter,
+//       image1,
+//       image2
+//     ) 
+//   })
+// }
 
 

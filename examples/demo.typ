@@ -1,6 +1,6 @@
-// #import "/oasis-align.typ": *
+#import "../oasis-align.typ": *
 // #import "@preview/oasis-align:0.1.0": *
-#import "@local/oasis-align:0.1.1": *
+// #import "@local/oasis-align:0.1.1": *
 
 #set page(width: 6in, height: auto, margin: 1in)
 #set image(width: 100%)
@@ -13,16 +13,6 @@
 //   [This is me writing about my cat. I love my cat. He is the best of cats. I give him head scratches until he gets mad at me. He then he starts swatting at my hand. This goes on until my hand gets scratched. dsfdfsdfsd]
 // )
 
-// #oasis-align-images(
-//   image("blanket.jpg", height: 2in, width: 2in), 
-//   image("box.jpg", height: 2in, width: 2in)
-// )
-
-
-// #oasis-align-images(
-//   "../examples/blanket.jpg", 
-//   "../examples/box.jpg"
-// )
 
 #oasis-align(
   image("blanket.jpg", height: 2in, width: 2in), 

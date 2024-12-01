@@ -15,8 +15,9 @@
 
 
 #oasis-align(
-  image("blanket.jpg", height: 2in, width: 2in), 
-  image("box.jpg", height: 2in, width: 2in),
+  swap: true,
+  image("blanket.jpg"), 
+  image("box.jpg"),
 )
 
 

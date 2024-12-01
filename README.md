@@ -22,10 +22,11 @@ and follow the instructions found under [configurations](#configuration).
 
 ```typst
 #oasis-align(
+  swap: false,          // boolean
+  int-dir: 1,           // 1 or -1
   int-frac: 0.5,        // decimal between 0 and 1
   tolerance: 0.001pt,   // length
   max-iterations: 50,   // integer greater than 0
-  int-dir: 1,           // 1 or -1
   debug: false          // boolean
   item1,                // content
   item2,                // content
@@ -34,6 +35,16 @@ and follow the instructions found under [configurations](#configuration).
 
 > [!IMPORTANT]
 > To change the size of the gutter in both functions, use `#set grid(column-gutter: length)`. This is necessary to allow for fixed rules that aren't possible with user-defined functions. 
+
+### `swap`
+Swap the positions of `item1` and `item2` on the grid. You can achieve an identical output by manually switching the content of `item1` and `item2`.
+
+### `int-dir`
+The initial direction that the dividing fraction is moved. Changing this value will change the initial direction.
+
+> [!NOTE]
+> The program is hardcoded to switch directions if a solution is not found in the initial direction. This parameter mainly serves to let you easily choose between [multiple solutions](#oasis-align-2).
+
 
 ### `int-frac`
 The starting point of the search process. Changing this value may reduce the total number of iterations of the function or find an [alternate solution](#oasis-align-2).
@@ -46,12 +57,6 @@ The allowable difference in heights between `item1` and `item2`. The function wi
 
 ### `max-iterations`
 The maximum number of iterations the function is allowed to attempt before terminating. Increasing this number may allow you to achieve a smaller `tolerance`.
-
-### `int-dir`
-The initial direction that the dividing fraction is moved. Changing this value will change the initial direction.
-
-> [!NOTE]
-> The program is hardcoded to switch directions if a solution is not found in the initial direction. This parameter mainly serves to let you easily choose between [multiple solutions](#oasis-align-2).
 
 ### `debug`
 A toggle that lets you look inside the function to see what is happening. This is useful if you would like to understand why certain content may be incompatible and which of the parameters above could be changed to resolve the issue. 

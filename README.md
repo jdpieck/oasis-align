@@ -3,19 +3,19 @@
 
 To use `oasis-align` in your document, start by importing the package like this:
 ```typst
-#import "@preview/oasis-align:0.2.0": *
+#import "@preview/oasis-align:0.3.0": *
 ```
 and follow the instructions found under [configuration](#configuration).
 
-# Examples
-## Image with Text
+## Examples
+### Image with Text
 ![Animation of image being aligned with text](examples/image-with-text.gif)
-## Image with Image
+### Image with Image
 ![Animation of image being aligned with another image](examples/image-with-image.gif)
-## Text with Text
+### Text with Text
 ![Animation of text being aligned with differently sized text](examples/text-with-text.gif)
 
-# Configuration
+## Configuration
 
 > [!TIP]
 > The parameters with defined values are the defaults and do not need to be included unless desired.
@@ -39,7 +39,7 @@ and follow the instructions found under [configuration](#configuration).
 ### `swap`
 Swap the positions of `item1` and `item2` on the grid. You can achieve an identical output by manually switching the content of `item1` and `item2`.
 
-### `int-dir`
+#### `int-dir`
 The initial direction that the dividing fraction is moved. Changing this value will change the initial direction.
 
 > [!NOTE]
@@ -66,7 +66,7 @@ A toggle that lets you look inside the function to see what is happening. Enable
 ## Why won't my image align nicely with my text -->
 
 
-# How It Works
+## How It Works
 Originally designed to allow for an image to be placed side-by-side with text, this function takes an iterative approach to aligning the content. When changing the width of a block of text, the height does not scale linearly, but instead behaves as a step function that follows an exponential trend (the graph below has a simplified visualization of this). This prevents the use of an analytical methodology and thus must be solved using an iterative approach.
 
 The function starts by taking the available space and then splitting it using the `int-frac`. The content is then placed in a block with the width as determined using the split from `int-frac` before measuring its height. Based on the `int-dir`, the split will be moved left or right using the bisection method until a solution within the `tolerance` has been found. In the case that a solution within the `tolerance` is not found within the `max-iterations`, the program terminates and uses the container width fraction that had the smallest difference in height. 
@@ -85,7 +85,7 @@ In the case of having texts of different sizes (as seen in [the examples](#text-
 <!-- # Nomenclature
 "Oasis" as in a fertile spot in a desert, where water is found. -->
 
-# Future Work
+## Future Work
 ### Allow for Relative `grid.column-gutter` sizes
 Presently, I am unable to make the `grid.column-gutter`absolute using the `.to-absolute()` method. Including a relative length in `#set grid(column-gutter)` will throw an error. 
 
@@ -97,7 +97,7 @@ In the mean time, you can get around this by playing with `int-frac`.
 ### Possible Integration with [`wrap-it`](https://github.com/ntjess/wrap-it)
 Seeing as the uses cases for `oasis-align` and [`wrap-it`](https://github.com/ntjess/wrap-it) are very similar, a combined package could prove to be extremely useful. Implementation would allow for text content to overflow after a solution can no longer be found using `oasis-align`.
 
-# Contributing and sharing
+## Contributing and sharing
 If you have suggestions or feedback, please feel free to create an [issue on GitHub](https://github.com/jdpieck/oasis-align/issues).
 
 If you end up using this package, please feel free to share how you used under [discussion on GitHub](https://github.com/jdpieck/oasis-align/discussions).

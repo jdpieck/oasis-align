@@ -1,4 +1,4 @@
-#let oasis-align(
+#let oasis-align-vert(
   swap: false,
   int-dir: 1, 
   int-frac: 0.5, 
@@ -33,31 +33,33 @@
   
   // use layout to measure container
   layout(container => {
-    let gutter = if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
-                 else {grid.column-gutter.at(0)}
-    let max-width = container.width - gutter
+    let gutter = if grid.row-gutter == () {0pt} // In case grid.gutter is not defined
+                 else {grid.row-gutter.at(0)}
+    let max-height = container.height - gutter
     // gutter = gutter.to-absolute() doesn't work idk    
-    let width1    // Bounding width of item1
-    let width2    // Bounding width of item2
-    let height1   // Measured height of item1 using width1
-    let height2   // Measured height of item2 using width2
+    let height1    // Bounding height of item1
+    let height2    // Bounding height of item2
+    let width1   // Measured width of item1 using height1
+    let width2   // Measured width of item2 using height2
     let frac = int-frac
     let upper-frac = 1
     let lower-frac = 0 
-    let diff      // Difference in heights of item1 and item2
+    let diff      // Difference in widths of item1 and item2
     let dir = int-dir
-    let min-diff = max-width
+    let min-diff = max-height
     let best-frac
     let n = 0
     let swap-check = 0
+    // let checking-height = true
 
     // Loop max to prevent infinite loop
     while n < max-iterations {
       n = n + 1
 
+            
       // If there is no solution in the initial direction, change directions and reset the function.
       if frac < min-frac or frac > 1 - min-frac {
-        heads-up([Minimum width reached. Changing `dir`...])
+        heads-up([Minimum height reached. Changing `dir`...])
         swap-check = swap-check + 1
         dir = dir *-1
         frac = int-frac
@@ -70,21 +72,38 @@
         }
       }
 
-      // Set starting bounds
-      width1 = frac*max-width
-      width2 = (1 - frac)*max-width
+      // let counter = 0
+      // while checking-height and counter < 50 {
+      //   counter = counter + 1
+        // Set starting bounds
+        height1 = frac*max-height
+        height2 = (1 - frac)*max-height
 
-      // Measure height of content and find difference
-      height1 = measure(block(width: width1, item1)).height.to-absolute()
-      height2 = measure(block(width: width2, item2)).height.to-absolute()
-      diff = calc.abs(height1 - height2)
-      
+
+        // Measure width of content and find difference
+        width1 = measure(block(height: height1, item1)).width.to-absolute()
+        width2 = measure(block(height: height2, item2)).width.to-absolute()
+        diff = calc.abs(width1 - width2)
+        
+        // let check-height1 = measure(block(width: width1, item1)).height.to-absolute()
+        // let check-height2 = measure(block(width: width2, item2)).height.to-absolute()
+
+        // if check-height1 + check-height2 > max-height {
+        //   warning("Height too big")
+        //   max-height = max-height - 10pt
+        //   // n = 0
+          // checking-height = true
+      //   } else {
+      //     checking-height = false
+      //   }
+      // } 
+
       // Display current values
       system-info[ 
         #heading(level: 3, [Iteration #n])
-         item1: (#width1, #height1) \ 
-         item2: (#width2, #height2) \ 
-         Height Diff: #diff #h(1em) 
+         item1: (#height1, #width1) \ 
+         item2: (#height2, #width2) \ 
+         width Diff: #diff #h(1em) 
          Min Diff: #min-diff \ 
          Frac: #frac \ 
          Upper: #upper-frac #h(1em) 
@@ -101,22 +120,22 @@
         heads-up([`diff` is larger than `min-diff`.])
       }
       else {heads-up([`min-diff` did not change])}
-     
+    
       if diff < tolerance {success("Tolerance Reached!")}
 
       // Check if within tolerance. If so, display
       if diff < tolerance or n >= max-iterations or swap-check >= 2 {
         success([Displaying output...])
-        if swap {grid(columns: (width2, width1), item2, item1)}
-        else    {grid(columns: (width1, width2), item1, item2)}
+        if swap {grid(rows: (height2, height1), item2, item1)}
+        else    {grid(rows: (height1, height2), item1, item2)}
         break
       }
       // Use bisection method by setting new bounds
-      else if height1*dir > height2*dir {
+      else if width1*dir > width2*dir {
         upper-frac = frac
         heads-up([Reassigning `upper-bound`...])
       }
-      else if height1*dir < height2*dir {
+      else if width1*dir < width2*dir {
         lower-frac = frac
         heads-up([Reassigning `lower-bound`...])
       }
@@ -125,7 +144,8 @@
       // Bisect length between bounds to get new fraction
       frac = (lower-frac + upper-frac) / 2
 
-      // Change fraction so value with least height difference if tolerance was not achieved
+
+      // Change fraction so value with least width difference if tolerance was not achieved
       if n >= max-iterations - 1 {
         warning([Maximum number of iterations reached! Setting fraction to fraction with smallest `diff`])
         frac = best-frac
@@ -133,5 +153,3 @@
     }
   })
 }
-
-#import "oasis-align-vert.typ": *

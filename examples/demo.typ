@@ -50,3 +50,39 @@
   text(.8em)[This is a passage of text that has smaller size. You might want this for a quote or some cool information that you want to share with the reader.],
   [This is a regularly sized passage of text. This passage has the main content for the things that you are writing about today.]
 )
+
+#set page(width: auto, height: 6in)
+#set grid(row-gutter: .2in)
+#set image(fit: "contain")
+
+// #oasis-align-vert(words, cat)
+#pagebreak()
+#oasis-align-vert(
+  image("blanket.jpg"),
+  image("box.jpg"),
+)
+
+#oasis-align-vert(
+  // debug: true,
+  figure(image("blanket.jpg"), caption: [a kitty]), 
+  figure(image("box.jpg"), caption: [a kitty]),
+)
+#pagebreak()
+#set grid(inset: (bottom: .2in))
+#oasis-align-vert(
+  // debug: true,
+  // swap: true,
+  block(figure(image("blanket.jpg"), caption: [a kitty])), 
+  figure(image("box.jpg"), caption: [a kitty]),
+  // figure(image("blanket.jpg"))
+)
+
+
+// #oasis-align-vert(words, words)
+
+// #grid(
+//   rows:(1fr, 2fr), 
+//   // words, words
+//     figure(image("blanket.jpg"), caption: [a kitty]), 
+//   figure(image("box.jpg"), caption: [a kitty]),
+// )

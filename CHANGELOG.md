@@ -1,4 +1,13 @@
-# 0.2.0 - 2024/11/30
+## 0.3.0 - 2025/03/26
+- added `min-frac` to parameters
+    - lets you change the minimum checked width
+- updated internal variable names for improved code legibility
+- updated `README.md`
+- created `oasis-align-vertical()` for vertical content alignment
+    - requested by @noobzik on Discord for presentation
+    - function is being treated an experimental feature since certain behaviors with figures and other kinds of content yield strange results
+
+## 0.2.0 - 2024/11/30
 - removed `oasis-align-images`
     - Thanks to @Aaron-Rumpler for pointing out a critical bug!
 - added `swap` to parameters
@@ -10,5 +19,5 @@
     - should make using `oasis-align` way less frustrating to use
 - default max iterations reduced from 50 to 30
 
-# 0.1.0 - 2024/09/02
+## 0.1.0 - 2024/09/02
 - Initial Release

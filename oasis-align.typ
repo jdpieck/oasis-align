@@ -5,6 +5,7 @@
   min-frac: 0.05,  
   tolerance: 0.01pt,
   max-iterations: 30, 
+  force-columns: none,
   debug: false,
   item1, 
   item2, 
@@ -14,6 +15,7 @@
   let heads-up(message) = if debug {block(text(blue, weight: "bold", message))}
   let warning(message) = if debug {block(text(red.darken(15%), weight: "bold", message))}
   let success(message) = if debug {block(text(green.darken(30%), weight: "bold", message))}
+
   let system-info(message) = if debug {
     show raw.where(block: false): box.with(
       fill: luma(240),
@@ -21,7 +23,6 @@
       outset: (y: 3pt),
       radius: 2pt,
     )
-
     message
   }
 

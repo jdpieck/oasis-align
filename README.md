@@ -25,6 +25,7 @@ and follow the instructions found under [configuration](#configuration).
   swap: false,          // boolean
   int-dir: 1,           // 1 or -1
   int-frac: 0.5,        // decimal between 0 and 1
+  min-frac: 0.05,       // decimal between 0 and 1
   tolerance: 0.001pt,   // length
   max-iterations: 30,   // integer greater than 0
   debug: false          // boolean
@@ -39,7 +40,7 @@ and follow the instructions found under [configuration](#configuration).
 ### `swap`
 Swap the positions of `item1` and `item2` on the grid. You can achieve an identical output by manually switching the content of `item1` and `item2`.
 
-#### `int-dir`
+### `int-dir`
 The initial direction that the dividing fraction is moved. Changing this value will change the initial direction.
 
 > [!NOTE]
@@ -48,6 +49,9 @@ The initial direction that the dividing fraction is moved. Changing this value w
 
 ### `int-frac`
 The starting point of the search process. Changing this value may reduce the total number of iterations of the function or find an [alternate solution](#oasis-align-2).
+
+### `min-frac`
+The minium fractional width the function will consider while sweeping. Usefully 
 
 ### `tolerance`
 The allowable difference in heights between `item1` and `item2`. The function will run until it has reached either this `tolerance` or `max-iterations`. Making `tolerance` larger may reduce the total number of iterations but result in a larger height difference between pieces of content.  

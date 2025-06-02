@@ -4,7 +4,7 @@
 - updated internal variable names for improved code legibility
 - updated `README.md`
 - created `oasis-align-vertical()` for vertical content alignment
-    - requested by @noobzik on Discord for presentation
+    - requested by @noobzik on Discord for presentations
     - function is being treated an experimental feature since certain behaviors with figures and other kinds of content yield strange results
 
 ## 0.2.0 - 2024/11/30

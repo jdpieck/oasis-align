@@ -10,12 +10,20 @@
 
 #let cat = image("blanket.jpg")
 
+
+
+
 #oasis-align(
-  int-dir: -1, 
+  int-dir: 1, 
+  // force1: true,
+  range: (0.134, 1),
+  // range: (0, .75),
+  // int-frac: .7,
+  // force2: .5, 
   // int-frac: .46,
   // max-iterations: 100,
   // min-frac: .2,
-  // debug: true,
+  debug: true,
   // swap: true,
   cat, 
   words
@@ -28,6 +36,7 @@
 
 #oasis-align(
   // debug: true,
+  int-dir: -1,
   // swap: true,
   // min-frac: 0.2,
   image("blanket.jpg"), 

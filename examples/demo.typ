@@ -19,14 +19,13 @@
   // range: (0.5, 1),
   // range: (0, .75),
   // int-frac: .6,
-  force1: .75, 
-  // force2: .75, 
+  forced-frac: .4, 
   // int-frac: .46,
   // max-iterations: 100,
   // min-frac: .2,
-  // debug: true,
+  debug: true,
   // swap: true,
-  show-ruler: true,
+  // show-ruler: true,
   cat, 
   words
 )

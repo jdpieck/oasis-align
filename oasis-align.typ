@@ -5,10 +5,9 @@
   int-frac: none, 
   int-dir: 1, 
   min-frac: 0.05,
+  forced-frac: none, 
   frac-limit: 1e-5,  
   tolerance: 0.01pt,
-  force1: none,
-  force2: none,
   max-iterations: 30, 
   show-ruler: false,
   debug: false,
@@ -28,9 +27,7 @@
   assert(check-fraction(min-frac), message: "Minimum fraction must be between 0 and 1!")
   assert(range.last() - range.first() > min-frac, message: "The range must me larger than the minimum-fraction")
   assert(type(tolerance) == length, message: "Tolerance must be a length!")
-  assert(force1 == none or force2 == none, message: "You cannot force the dimension of item1 and item2 at the sane time!")
-  assert(force1 == none or check-fraction(force1), message: "The forced dimension must be given in terms of a fraction!")
-  assert(force2 == none or check-fraction(force2), message: "The forced dimension must be given in terms of a fraction!")
+  assert(forced-frac == none or check-fraction(forced-frac), message: "The forced dimension must be given in terms of a fraction!")
 
 
   // Debug functions
@@ -79,7 +76,7 @@
     let best-frac
     let n = 0
     let dir-change = 0
-    let override = if force1 != none or force2 != none {true} else {false}
+    let override = if forced-frac != none {true} else {false}
 
     let split-layout(max-distance, fraction) = {
       let dim1 = fraction * max-distance
@@ -97,11 +94,16 @@
         horizon + left, 
         stack(
           dir: ltr, 
-          spacing: 12.5%,
+          spacing: 10%,
+          // major-line, 
+          // minor-line, median-line, minor-line,
+          // major-line,
+          // minor-line, median-line, minor-line,
+          // major-line,
           major-line, 
-          minor-line, median-line, minor-line,
+          minor-line, minor-line, minor-line, minor-line,
           major-line,
-          minor-line, median-line, minor-line,
+          minor-line, minor-line, minor-line, minor-line,
           major-line,
         )
       )
@@ -133,6 +135,10 @@
 
       (dim-1a, dim-2a) = split-layout(max-dim, frac)
  
+      if override {
+        (dim-1a, dim-2a) = split-layout(max-dim, forced-frac)
+        heads-up([The function has been overridden by `forced-frac`])
+      }
 
       // Measure height of content and find difference
       dim-1b = measure(block(width: dim-1a, item1)).height.to-absolute()
@@ -164,14 +170,6 @@
       // if n >= max-iterations {warning("Maximum number of iterations reached!")}
       if dir-change >= 2 {warning([`dir` has changed twice. The selected content cannot be more closely aligned. Try changing `int-frac` to give the function a different starting point.])      }
 
-      if override {
-        if force2 == none {
-          (dim-1a, dim-2a) = split-layout(max-dim, force1)
-        }
-        if force1 == none {
-          (dim-1a, dim-2a) = split-layout(max-dim, force2)
-        }
-      }
 
       // Check if within tolerance. If so, display
       if diff < tolerance or n >= max-iterations or dir-change >= 2 or override {

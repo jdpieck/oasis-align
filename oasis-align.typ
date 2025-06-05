@@ -10,6 +10,7 @@
   force1: none,
   force2: none,
   max-iterations: 30, 
+  show-ruler: false,
   debug: false,
   item1, 
   item2, 
@@ -86,6 +87,35 @@
       return (dim1, dim2)
     }
 
+    let ruler(ruler-dim, ratio: .7, color: blue.transparentize(30%)) = {
+      if show-ruler == false {return}
+      let major-line  = line(length: ruler-dim * ratio, angle: 90deg, stroke: (thickness: 3pt, paint: color, cap: "round"))
+      let median-line = line(length: ruler-dim * ratio * .8, angle: 90deg, stroke: (thickness: 2pt, paint: color, cap: "round"))
+      let minor-line  = line(length: ruler-dim * ratio * .5 , angle: 90deg, stroke: (thickness: 2pt, paint: color, cap: "round"))
+      
+      place(
+        horizon + left, 
+        stack(
+          dir: ltr, 
+          spacing: 12.5%,
+          major-line,
+          minor-line,
+          median-line,
+          minor-line,
+          major-line,
+          minor-line,
+          median-line,
+          minor-line,
+          major-line,
+        )
+      )
+      
+      place(
+        horizon + center,
+        line(length: 100%, stroke: (thickness: 3pt, paint: color, cap: "round"))
+      )
+    }
+
     // Loop max to prevent infinite loop
     while n < max-iterations {
       n = n + 1
@@ -141,6 +171,7 @@
         success([Displaying output...])
         if swap {grid(columns: (dim-2a, dim-1a), item2, item1)}
         else    {grid(columns: (dim-1a, dim-2a), item1, item2)}
+        ruler(dim-1b)
         break
       }
       // Use bisection method by setting new bounds

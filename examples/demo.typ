@@ -10,7 +10,7 @@
 
 #let cat = image("blanket.jpg")
 
-
+// #place(line(length: 2in, angle: 90deg, stroke: 5pt))
 
 
 #oasis-align(
@@ -23,8 +23,9 @@
   // int-frac: .46,
   // max-iterations: 100,
   // min-frac: .2,
-  debug: true,
+  // debug: true,
   // swap: true,
+  show-ruler: true,
   cat, 
   words
 )

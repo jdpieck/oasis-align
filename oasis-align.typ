@@ -28,6 +28,9 @@
   assert(range.last() - range.first() > min-frac, message: "The range must me larger than the minimum-fraction")
   assert(type(tolerance) == length, message: "Tolerance must be a length!")
   assert(forced-frac == none or check-fraction(forced-frac), message: "The forced dimension must be given in terms of a fraction!")
+  assert(type(max-iterations) == int, message: "The maximum number of iterations must be an integer! Lowering the number may find a solution quicker, but it may no be within tolerance.")
+  assert(type(show-ruler) == bool, message: "Ruler can be turned on or off only using boolean!")
+  assert(type(debug) == bool, message: "Debug feed can be turned on or off only using boolean!")
 
 
   // Debug functions
@@ -55,10 +58,8 @@
       if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
       else {grid.column-gutter.at(0)}
     }
-
     let max-dim = if vertical {container.height - gutter}
                    else {container.width - gutter}
-
     let dim-1a    // Bounding dimension of item1
     let dim-2a    // Bounding dimension of item2
     let dim-1b   // Measured dimension of item1 using dim-1a
@@ -84,6 +85,33 @@
       return (dim1, dim2)
     }
 
+    let measure-difference(dim1, dim2, vertical) = {
+      let out1 
+      let out2 
+      if vertical {
+        out1 = measure(block(height: dim1, item1)).width.to-absolute()
+        out2 = measure(block(height: dim2, item2)).width.to-absolute()
+      } else {
+        out1 = measure(block(width: dim1, item1)).height.to-absolute()
+        out2 = measure(block(width: dim2, item2)).height.to-absolute()
+      }
+      let diff = calc.abs(out1 - out2)
+
+      return (out1, out2, diff)
+
+    }
+
+    let display-output(dim1, dim2, vertical, swap) = {
+      if vertical {
+        if swap {grid(rows: (dim2, dim1), item2, item1)}
+        else    {grid(rows: (dim1, dim2), item1, item2)}
+      }
+      else {
+        if swap {grid(columns: (dim2, dim1), item2, item1)}
+        else    {grid(columns: (dim1, dim2), item1, item2)}
+      }
+    }
+
     let ruler(ruler-dim, ratio: .7, color: blue.transparentize(30%)) = {
       if show-ruler == false {return}
       let major-line  = line(length: ruler-dim * ratio, angle: 90deg, stroke: (thickness: 3pt, paint: color, cap: "round"))
@@ -95,11 +123,6 @@
         stack(
           dir: ltr, 
           spacing: 10%,
-          // major-line, 
-          // minor-line, median-line, minor-line,
-          // major-line,
-          // minor-line, median-line, minor-line,
-          // major-line,
           major-line, 
           minor-line, minor-line, minor-line, minor-line,
           major-line,
@@ -114,17 +137,14 @@
       )
     }
 
-    // let display-output(dim1, dim2, item1, item2, swap)
-
     // Loop max to prevent infinite loop
     while n < max-iterations {
       n = n + 1
       system-info(heading(level: 3, [Iteration #n]))
 
       // If there is no solution in the initial direction, change directions and reset the function.
-      // if frac < min-frac + range.first() or frac > range.last() - min-frac {
       if frac-diff < frac-limit {
-        warning([Minimum width reached. Changing `dir`...])
+        warning([Changes to fraction are have exceed the `frac-limit`. Changing `dir`...])
         dir-change = dir-change + 1
         dir = dir *-1
         frac = start-frac
@@ -141,9 +161,7 @@
       }
 
       // Measure height of content and find difference
-      dim-1b = measure(block(width: dim-1a, item1)).height.to-absolute()
-      dim-2b = measure(block(width: dim-2a, item2)).height.to-absolute()
-      diff = calc.abs(dim-1b - dim-2b)
+      (dim-1b, dim-2b, diff) = measure-difference(dim-1a, dim-2a, vertical) 
       
       system-info()[
           // item1: (#dim-1a, #dim-1b) \ 
@@ -174,8 +192,7 @@
       // Check if within tolerance. If so, display
       if diff < tolerance or n >= max-iterations or dir-change >= 2 or override {
         success([Displaying output...])
-        if swap {grid(columns: (dim-2a, dim-1a), item2, item1)}
-        else    {grid(columns: (dim-1a, dim-2a), item1, item2)}
+        display-output(dim-1a, dim-2a, vertical, swap)
         ruler(dim-1b)
         break
       }
@@ -211,5 +228,3 @@
     }
   })
 }
-
-#import "oasis-align-vert.typ": *

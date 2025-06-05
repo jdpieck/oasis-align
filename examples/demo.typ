@@ -19,11 +19,11 @@
   // range: (0.5, 1),
   // range: (0, .75),
   // int-frac: .6,
-  forced-frac: .4, 
+  // forced-frac: .4, 
   // int-frac: .46,
   // max-iterations: 100,
   // min-frac: .2,
-  debug: true,
+  // debug: true,
   // swap: true,
   // show-ruler: true,
   cat, 
@@ -38,6 +38,7 @@
 #oasis-align(
   // debug: true,
   int-dir: -1,
+  // vertical: true,
   // swap: true,
   // min-frac: 0.2,
   image("blanket.jpg"), 
@@ -68,19 +69,23 @@
 
 // #oasis-align-vert(words, cat)
 #pagebreak()
-#oasis-align-vert(
+#oasis-align(
+  vertical: true,
+  swap: true,
   image("blanket.jpg"),
   image("box.jpg"),
 )
 
-#oasis-align-vert(
+#oasis-align(
   // debug: true,
+  vertical: true,
   figure(image("blanket.jpg"), caption: [a kitty]), 
   figure(image("box.jpg"), caption: [a kitty]),
 )
 #pagebreak()
 #set grid(inset: (bottom: .2in))
-#oasis-align-vert(
+#oasis-align(
+  vertical: true,
   // debug: true,
   // swap: true,
   block(figure(image("blanket.jpg"), caption: [a kitty])), 

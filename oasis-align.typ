@@ -44,7 +44,6 @@
         outset: (y: 3pt),
         radius: 2pt,
       )  
-
       message
   }
   
@@ -79,7 +78,8 @@
     let min-diff = max-dim
     let best-frac
     let n = 0
-    let swap-check = 0
+    let dir-change = 0
+    let override = if force1 != none or force2 != none {true} else {false}
 
     let split-layout(max-distance, fraction) = {
       let dim1 = fraction * max-distance
@@ -98,14 +98,10 @@
         stack(
           dir: ltr, 
           spacing: 12.5%,
+          major-line, 
+          minor-line, median-line, minor-line,
           major-line,
-          minor-line,
-          median-line,
-          minor-line,
-          major-line,
-          minor-line,
-          median-line,
-          minor-line,
+          minor-line, median-line, minor-line,
           major-line,
         )
       )
@@ -116,6 +112,8 @@
       )
     }
 
+    // let display-output(dim1, dim2, item1, item2, swap)
+
     // Loop max to prevent infinite loop
     while n < max-iterations {
       n = n + 1
@@ -125,7 +123,7 @@
       // if frac < min-frac + range.first() or frac > range.last() - min-frac {
       if frac-diff < frac-limit {
         warning([Minimum width reached. Changing `dir`...])
-        swap-check = swap-check + 1
+        dir-change = dir-change + 1
         dir = dir *-1
         frac = start-frac
         lower-frac = range.first() 
@@ -134,7 +132,7 @@
 
 
       (dim-1a, dim-2a) = split-layout(max-dim, frac)
-
+ 
 
       // Measure height of content and find difference
       dim-1b = measure(block(width: dim-1a, item1)).height.to-absolute()
@@ -164,10 +162,19 @@
      
       if diff < tolerance {success("Tolerance Reached!")}
       // if n >= max-iterations {warning("Maximum number of iterations reached!")}
-      if swap-check >= 2 {warning([`dir` has changed twice. The selected content cannot be more closely aligned. Try changing `int-frac` to give the function a different starting point.])      }
+      if dir-change >= 2 {warning([`dir` has changed twice. The selected content cannot be more closely aligned. Try changing `int-frac` to give the function a different starting point.])      }
+
+      if override {
+        if force2 == none {
+          (dim-1a, dim-2a) = split-layout(max-dim, force1)
+        }
+        if force1 == none {
+          (dim-1a, dim-2a) = split-layout(max-dim, force2)
+        }
+      }
 
       // Check if within tolerance. If so, display
-      if diff < tolerance or n >= max-iterations or swap-check >= 2 {
+      if diff < tolerance or n >= max-iterations or dir-change >= 2 or override {
         success([Displaying output...])
         if swap {grid(columns: (dim-2a, dim-1a), item2, item1)}
         else    {grid(columns: (dim-1a, dim-2a), item1, item2)}

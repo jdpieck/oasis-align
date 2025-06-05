@@ -14,12 +14,13 @@
 
 
 #oasis-align(
-  int-dir: 1, 
+  // int-dir: 1, 
   // force1: true,
-  range: (0.134, 1),
+  // range: (0.5, 1),
   // range: (0, .75),
-  // int-frac: .7,
-  // force2: .5, 
+  // int-frac: .6,
+  force1: .75, 
+  // force2: .75, 
   // int-frac: .46,
   // max-iterations: 100,
   // min-frac: .2,
@@ -57,6 +58,7 @@
 
 #oasis-align(
   // debug: true,
+  range: (.2, .878),
   text(.8em)[This is a passage of text that has smaller size. You might want this for a quote or some cool information that you want to share with the reader.],
   [This is a regularly sized passage of text. This passage has the main content for the things that you are writing about today.]
 )

@@ -47,6 +47,17 @@
   image("box.jpg"),
 )
 
+#oasis-align-images(
+  // debug: true,
+  // int-dir: -1,
+  // vertical: true,
+  // swap: true,
+  // min-frac: 0.2,
+  // ruler: true,
+  image("blanket.jpg"), 
+  image("box.jpg"),
+)
+
 #oasis-align(
   // debug: true,
   lorem(50),
@@ -70,6 +81,15 @@
 #set image(fit: "contain")
 
 // #oasis-align-vert(words, cat)
+#pagebreak()
+#oasis-align-images(
+  // debug: true,
+  vertical: true,
+  // ruler: true,
+  image("blanket.jpg"), 
+  image("box.jpg"),
+)
+
 #pagebreak()
 #oasis-align(
   vertical: true,

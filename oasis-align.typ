@@ -254,3 +254,61 @@
     }
   })
 }
+
+#let oasis-align-images(
+  vertical: false,
+  swap: false, 
+  image1, 
+  image2
+) = context {
+
+  // Find dimentional ratio between images
+  let block1 = measure(image1)
+  let block2 = measure(image2)
+  let ratio = if vertical {(block1.height/block1.width)*block2.width/block2.height}
+              else {(block1.width/block1.height)*block2.height/block2.width}
+
+  
+  let display-output(dim1, dim2, vertical, swap) = {
+    if vertical {
+      if swap {grid(rows: (dim2, dim1), image2, image1)}
+      else    {grid(rows: (dim1, dim2), image1, image2)}
+    }
+    else {
+      if swap {grid(columns: (dim2, dim1), image2, image1)}
+      else    {grid(columns: (dim1, dim2), image1, image2)}
+    }
+  }
+
+  layout(measured-container => {
+    // Measure size of continaner
+    // let container = size.width
+    let gutter = if vertical {
+      if grid.row-gutter == () {0pt} // In case grid.gutter is not defined
+      else {grid.row-gutter.at(0)}
+    } else {
+      if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
+      else {grid.column-gutter.at(0)}
+    }
+    let max-dim = if vertical {measured-container.height - gutter}
+                   else {measured-container.width - gutter}
+    // Set widths of images
+    let calcWidth1 = (max-dim)/(1/ratio + 1)
+    let calcWidth2 = (max-dim)/(ratio + 1)
+
+
+    // Display images in grid
+    display-output(calcWidth1,calcWidth1, vertical, swap)
+    if vertical {
+      grid(rows: (calcWidth1, calcWidth2),
+        image1,
+        image2
+      ) 
+    } else {
+      grid(columns: (calcWidth1, calcWidth2),
+        image1,
+        image2
+      ) 
+    }
+  })
+}

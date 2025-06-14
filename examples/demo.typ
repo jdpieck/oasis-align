@@ -26,6 +26,7 @@
   // debug: true,
   // swap: true,
   // show-ruler: true,
+  // ruler: true,
   cat, 
   words
 )
@@ -41,6 +42,7 @@
   // vertical: true,
   // swap: true,
   // min-frac: 0.2,
+  ruler: true,
   image("blanket.jpg"), 
   image("box.jpg"),
 )
@@ -79,6 +81,7 @@
 #oasis-align(
   // debug: true,
   vertical: true,
+  ruler: true,
   figure(image("blanket.jpg"), caption: [a kitty]), 
   figure(image("box.jpg"), caption: [a kitty]),
 )
@@ -86,6 +89,7 @@
 #set grid(inset: (bottom: .2in))
 #oasis-align(
   vertical: true,
+  ruler: true,
   // debug: true,
   // swap: true,
   block(figure(image("blanket.jpg"), caption: [a kitty])), 

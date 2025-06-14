@@ -9,7 +9,7 @@
   frac-limit: 1e-5,  
   tolerance: 0.01pt,
   max-iterations: 30, 
-  show-ruler: false,
+  ruler: false,
   debug: false,
   item1, 
   item2, 
@@ -29,7 +29,7 @@
   assert(type(tolerance) == length, message: "Tolerance must be a length!")
   assert(forced-frac == none or check-fraction(forced-frac), message: "The forced dimension must be given in terms of a fraction!")
   assert(type(max-iterations) == int, message: "The maximum number of iterations must be an integer! Lowering the number may find a solution quicker, but it may no be within tolerance.")
-  assert(type(show-ruler) == bool, message: "Ruler can be turned on or off only using boolean!")
+  assert(type(ruler) == bool, message: "Ruler can be turned on or off only using boolean!")
   assert(type(debug) == bool, message: "Debug feed can be turned on or off only using boolean!")
 
 
@@ -126,16 +126,28 @@
       }
     }
 
-    let ruler(ruler-dim, ratio: .7, color: blue.transparentize(30%)) = {
-      if show-ruler == false {return}
-      let major-line  = line(length: ruler-dim * ratio, angle: 90deg, stroke: (thickness: 3pt, paint: color, cap: "round"))
-      let median-line = line(length: ruler-dim * ratio * .8, angle: 90deg, stroke: (thickness: 2pt, paint: color, cap: "round"))
-      let minor-line  = line(length: ruler-dim * ratio * .5 , angle: 90deg, stroke: (thickness: 2pt, paint: color, cap: "round"))
+    let show-ruler(ruler-dim, ratio: .7, color: red.transparentize(20%), vertical) = {
+      if ruler == false {return}
+      
+      let stack-direction
+      let line-angle
+
+      if vertical {
+        stack-direction = ttb
+        line-angle = 0deg
+      } else {
+        stack-direction = ltr
+        line-angle = 90deg
+      }
+
+      let major-line  = line(length: ruler-dim * ratio, angle: line-angle, stroke: (thickness: .4em, paint: color, cap: "round"))
+      let median-line = line(length: ruler-dim * ratio * .8, angle: line-angle, stroke: (thickness: .3em, paint: color, cap: "round"))
+      let minor-line  = line(length: ruler-dim * ratio * .5 , angle: line-angle, stroke: (thickness: .3em, paint: color, cap: "round"))
       
       place(
-        horizon + left, 
+        horizon + center, 
         stack(
-          dir: ltr, 
+          dir: stack-direction, 
           spacing: 10%,
           major-line, 
           minor-line, minor-line, minor-line, minor-line,
@@ -147,7 +159,7 @@
       
       place(
         horizon + center,
-        line(length: 100%, stroke: (thickness: 3pt, paint: color, cap: "round"))
+        line(length: 100%, angle: calc.abs(line-angle - 90deg), stroke: (thickness: 3pt, paint: color, cap: "round"))
       )
     }
 
@@ -207,7 +219,7 @@
       if diff < tolerance or n >= max-iterations or dir-change >= 2 or override {
         success([Displaying output...])
         display-output(dim-1a, dim-2a, vertical, swap)
-        ruler(dim-1b)
+        show-ruler(dim-1b, vertical)
         break
       }
       // Use bisection method by setting new bounds

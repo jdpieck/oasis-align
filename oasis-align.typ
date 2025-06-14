@@ -48,9 +48,19 @@
   }
   
   
-  // use layout to measure container
-  layout(container => {
-
+  // use layout to measure measured-container
+  layout(measured-container => {
+    // let container = (
+    //   gutter: if vertical {
+    //     if grid.row-gutter == () {0pt} // In case grid.gutter is not defined
+    //     else {grid.row-gutter.at(0)}
+    //   } else {
+    //     if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
+    //     else {grid.column-gutter.at(0)}
+    //   },
+    //   max: if vertical {measured-container.height - gutter}
+    //                else {measured-container.width - container.gutter},
+    // )
     let gutter = if vertical {
       if grid.row-gutter == () {0pt} // In case grid.gutter is not defined
       else {grid.row-gutter.at(0)}
@@ -58,8 +68,12 @@
       if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
       else {grid.column-gutter.at(0)}
     }
-    let max-dim = if vertical {container.height - gutter}
-                   else {container.width - gutter}
+    let max-dim = if vertical {measured-container.height - gutter}
+                   else {measured-container.width - gutter}
+    // let thing1 = (
+    //   dim-a: length, 
+    //   dim-b: length,
+    // )
     let dim-1a    // Bounding dimension of item1
     let dim-2a    // Bounding dimension of item2
     let dim-1b   // Measured dimension of item1 using dim-1a

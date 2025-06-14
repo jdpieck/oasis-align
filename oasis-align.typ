@@ -143,7 +143,7 @@
       system-info(heading(level: 3, [Iteration #n]))
 
       // If there is no solution in the initial direction, change directions and reset the function.
-      if frac-diff < frac-limit {
+      if frac-diff < frac-limit or frac < min-frac  or frac > 1 - min-frac {
         warning([Changes to fraction are have exceed the `frac-limit`. Changing `dir`...])
         dir-change = dir-change + 1
         dir = dir *-1

@@ -26,11 +26,12 @@
   // debug: true,
   // swap: true,
   // show-ruler: true,
-  // ruler: true,
+  ruler: true,
   cat, 
   words
 )
 
+#v(3em)
 // #grid(columns: (1fr, 1.19fr),  
 //   cat, 
 //   words

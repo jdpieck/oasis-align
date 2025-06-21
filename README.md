@@ -14,11 +14,12 @@ and follow the instructions found under [configuration](#configuration).
 ![Animation of image being aligned with another image](examples/image-with-image.gif)
 ### Text with Text
 ![Animation of text being aligned with differently sized text](examples/text-with-text.gif)
+### Full Document Implementation
+To see how `oasis-align` can be used in practice, check out my [Onshape boat tutorial](https://github.com/jdpieck/Onshape-Boat-Tutorial) made using Typst!
 
 ## General Content Configuration
 
-> [!TIP]
-> The parameters with defined values are the defaults and do not need to be included unless desired.
+The a large portion of the following parameters have been made user-accessible for edge case scenarios in which the baseline function is unable to determine a solution. The parameters with defined values are the defaults and should only be changed when you are unable to achieve your desired output.
 
 ```typst
 #oasis-align(
@@ -32,7 +33,7 @@ and follow the instructions found under [configuration](#configuration).
   min-frac: 0.05,       // decimal between 0 and 1
   frac-limit: 1e-5,     // decimal between 0 and 1
   tolerance: 0.001pt,   // length
-  max-iterations: 30,   // integer >0
+  max-iterations: 30,   // integer greater than 0
   debug: false          // boolean
   item1,                // content
   item2,                // content
@@ -49,7 +50,7 @@ and follow the instructions found under [configuration](#configuration).
 ```
 
 > [!IMPORTANT]
-> To change the size of the gutter in both functions, use `#set grid(column-gutter: length)`. This is necessary to allow for fixed rules that aren't possible with user-defined functions. 
+> To change the size of the grid gutter in both functions, use `#set grid(column-gutter: length)`. This is necessary to allow for fixed rules that aren't possible with user-defined functions. 
 
 ### `swap` (boolean)
 Swap the positions of `item1` and `item2` on the grid. You can achieve an identical output by manually switching the content of `item1` and `item2`. Note that input parameters such as `forced-frac` and `int-frac` consider the content before it has been swapped.
@@ -89,7 +90,7 @@ The allowable difference in heights between `item1` and `item2`. The function wi
 > [!NOTE]
 > Two pieces of content may not always be able to achieve the desired `tolerance`. In that case, the function sizes the content to the iteration that had the least difference in height. _Check out [how it works](#oasis-align-2) to understand why the function may not be able achieve the desired `tolerance`._
 
-### `max-iterations` (integer >0)
+### `max-iterations` (integer greater than 0)
 The maximum number of iterations the function is allowed to attempt before terminating. Increasing this number may allow you to achieve a smaller `tolerance`.
 
 ### `debug` (boolean)

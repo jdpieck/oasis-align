@@ -19,7 +19,7 @@ To see how `oasis-align` can be used in practice, check out my [Onshape boat tut
 
 ## General Content Configuration
 
-The a large portion of the following parameters have been made user-accessible for edge case scenarios in which the baseline function is unable to determine a solution. The parameters with defined values are the defaults and should only be changed when you are unable to achieve your desired output.
+A large portion of the following parameters have been made user-accessible for edge case scenarios in which the baseline function is unable to determine a solution. The parameters with defined values are the defaults and should only be changed if you are unable to achieve your desired output.
 
 ```typst
 #oasis-align(
@@ -34,7 +34,7 @@ The a large portion of the following parameters have been made user-accessible f
   frac-limit: 1e-5,     // decimal between 0 and 1
   tolerance: 0.001pt,   // length
   max-iterations: 30,   // integer greater than 0
-  debug: false          // boolean
+  debug: false,         // boolean
   item1,                // content
   item2,                // content
 )
@@ -64,7 +64,7 @@ Display a ruler overlay on top of the content. Useful for determining fractional
 ![Image of output with parameter `ruler: true`](examples/ruler.png)
 
 ### `range` (array of two decimals between 0 and 1)
-Limits the solution finding algorithm to a specific fractional range. Useful for when you are only interested in finding alignments to fit a specific form factor. 
+Limits the solution-finding algorithm to a specific fractional range. Useful when you are only interested in finding alignments to fit a specific form factor. 
 
 ### `int-frac` (decimal between 0 and 1)
 The starting point of the search process. Changing this value may reduce the total number of iterations of the function or find an [alternate solution](#oasis-align-2). By default, `int-frac` will be the midpoint of the specified `range`. For example, a `range` of `(0, 0.6)` will have an `int-frac` of `0.3`.  
@@ -76,25 +76,25 @@ The initial direction that the dividing fraction is moved. Changing this value w
 > The program is hardcoded to switch directions if a solution is not found in the initial direction. This parameter mainly serves to let you easily choose between [multiple solutions](#oasis-align-2).
 
 ### `forced-frac` (decimal between 0 and 1)
-Last resort parameter that bypasses the `oasis-align` algorithm to use the specific fraction. Useful for when the function is misbehaving and you just want to display a user-specified layout. 
+A last resort parameter that bypasses the `oasis-align` algorithm to use the specific fraction. Useful when the function is misbehaving and you just want to display a user-specified layout. 
 
 ### `min-frac` (decimal between 0 and 1)
-The minium fractional width the function will consider while sweeping. Useful if you do not want to consider solutions that result in very uneven content distribution.
+The minimum fractional width the function will consider during its search. Useful if you do not want to consider solutions that result in very uneven content distribution.
 
 ### `frac-limit` (decimal between 0 and 1)
-The limit in the difference in fraction values from function iterations. Prevents the function from getting stuck on a discontinuity. 
+The minimum difference in fraction values between function iterations. Prevents the function from getting stuck on a discontinuity. 
 
 ### `tolerance` (length)
-The allowable difference in heights between `item1` and `item2`. The function will run until it has reached either this `tolerance` or `max-iterations`. Making `tolerance` larger may reduce the total number of iterations but result in a larger height difference between pieces of content.  
+The maximum allowable difference in heights between `item1` and `item2`. The function will run until it has reached either this `tolerance` or `max-iterations`. Increasing `tolerance` may reduce the total number of iterations but result in a larger height difference between the pieces of content.  
 
 > [!NOTE]
-> Two pieces of content may not always be able to achieve the desired `tolerance`. In that case, the function sizes the content to the iteration that had the least difference in height. _Check out [how it works](#oasis-align-2) to understand why the function may not be able achieve the desired `tolerance`._
+> Two pieces of content may not always be able to achieve the desired `tolerance`. In that case, the function sizes the content to the iteration that had the least difference in height. _Check out [how it works](#oasis-align-2) to understand why the function may not be able to achieve the desired `tolerance`._
 
 ### `max-iterations` (integer greater than 0)
 The maximum number of iterations the function is allowed to attempt before terminating. Increasing this number may allow you to achieve a smaller `tolerance`.
 
 ### `debug` (boolean)
-A toggle that lets you look inside the function to see what is happening. Enable this if you would like a log of the function process and which of the parameters above could be changed to resolve the issue. 
+A toggle that lets you view internal function logs to see what is happening. Enable this if you would like to see a log of the function's process and suggestions for which parameters could be changed to resolve issues. 
 <!-- 
 ### `item1` (content)
 Content that is aligned to 
@@ -131,22 +131,22 @@ $$w_1' = \left(\frac{h_1 w_2}{w_1 h_2} + 1 \right)^{-1} \qquad w_2' = \left(\fra
 
 ## Future Work
 ### Allow for Relative `grid.column-gutter` sizes
-Presently, I am unable to make the `grid.column-gutter`absolute using the `.to-absolute()` method. Including a relative length in `#set grid(column-gutter)` will throw an error. 
+Presently, I am unable to make the `grid.column-gutter` absolute using the `.to-absolute()` method. Including a relative length in `#set grid(column-gutter)` will throw an error. 
 
 ### Skipping Close Approximations
-The function will skip over near-solutions under certain conditions. This is a consequence of the bisection method, which is great for finding exact solutions, but not approximations. 
+Under certain conditions, the function may skip over near-solutions. This is a consequence of the bisection method, which is great for finding exact solutions, but not approximations. 
 
-To address this, a large portion of the code would likely need to be rewritten using a different algorithm that searches outwards from `int-frac`. Further improvements could also likely be made my incrementally increasing the tolerance as the function struggles to find a solution.  
+To address this, a large portion of the code would likely need to be rewritten using a different algorithm that searches outwards from `int-frac`. Further improvements could also likely be made by incrementally increasing the tolerance as the function struggles to find a solution.  
 
-In the mean time, you can get around this by playing with `range` and `int-frac`.
+In the meantime, you can get around this by playing with `range` and `int-frac`.
 
 ### Possible Integration with [`wrap-it`](https://github.com/ntjess/wrap-it)
-Seeing as the uses cases for `oasis-align` and [`wrap-it`](https://github.com/ntjess/wrap-it) are very similar, a combined package could prove to be extremely useful. Implementation would allow for text content to overflow after a solution can no longer be found using `oasis-align`.
+Seeing as the use cases for `oasis-align` and [`wrap-it`](https://github.com/ntjess/wrap-it) are very similar, a combined package could prove to be extremely useful. Implementation would allow for text content to overflow after a solution can no longer be found using `oasis-align`.
 
 ## Contributing and sharing
 If you have suggestions or feedback, please feel free to create an [issue on GitHub](https://github.com/jdpieck/oasis-align/issues). I am particularly open to ideas for improving the solution-finding algorithm.
 
-If you end up using this package, please feel free to share how you used under [discussion on GitHub](https://github.com/jdpieck/oasis-align/discussions).
+If you end up using this package, please feel free to share how you used it under [discussion on GitHub](https://github.com/jdpieck/oasis-align/discussions).
 
 Thanks for reading!
 

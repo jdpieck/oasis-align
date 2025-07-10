@@ -5,7 +5,7 @@
   int-frac: none, 
   int-dir: 1, 
   min-frac: 0.05,
-  forced-frac: none, 
+  force-frac: none, 
   frac-limit: 1e-5,  
   tolerance: 0.01pt,
   max-iterations: 30, 
@@ -27,7 +27,7 @@
   assert(check-fraction(min-frac), message: "Minimum fraction must be between 0 and 1!")
   assert(range.last() - range.first() > min-frac, message: "The range must me larger than the minimum-fraction")
   assert(type(tolerance) == length, message: "Tolerance must be a length!")
-  assert(forced-frac == none or check-fraction(forced-frac), message: "The forced dimension must be given in terms of a fraction!")
+  assert(force-frac == none or check-fraction(force-frac), message: "The forced dimension must be given in terms of a fraction!")
   assert(type(max-iterations) == int, message: "The maximum number of iterations must be an integer! Lowering the number may find a solution quicker, but it may no be within tolerance.")
   assert(type(ruler) == bool, message: "Ruler can be turned on or off only using boolean!")
   assert(type(debug) == bool, message: "Debug feed can be turned on or off only using boolean!")
@@ -91,7 +91,7 @@
     let best-frac
     let n = 0
     let dir-change = 0
-    let override = if forced-frac != none {true} else {false}
+    let override = if force-frac != none {true} else {false}
 
     let split-layout(max-distance, fraction) = {
       let dim1 = fraction * max-distance
@@ -182,7 +182,7 @@
       (dim-1a, dim-2a) = split-layout(max-dim, frac)
  
       if override {
-        (dim-1a, dim-2a) = split-layout(max-dim, forced-frac)
+        (dim-1a, dim-2a) = split-layout(max-dim, force-frac)
         heads-up([The function has been overridden by `forced-frac`])
       }
 

@@ -40,6 +40,7 @@
 #oasis-align(
   // debug: true,
   int-dir: -1,
+  force-frac: .5,
   // vertical: true,
   // swap: true,
   // min-frac: 0.2,

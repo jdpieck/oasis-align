@@ -6,7 +6,7 @@
         - note that certain behaviors with figures and other kinds of content yield strange results
     - `ruler`
     - `range` 
-    - `forced-frac`
+    - `force-frac`
     - `frac-limit`
 - improved the `debug` output
 - `int-frac` is now derived as mean of `range`

@@ -29,7 +29,7 @@ A large portion of the following parameters have been made user-accessible for e
   range: (0, 1),        // array of two decimals between 0 and 1
   int-frac: none,       // decimal between 0 and 1
   int-dir: 1,           // 1 or -1
-  forced-frac: none,    // decimal between 0 and 1
+  force-frac: none,    // decimal between 0 and 1
   min-frac: 0.05,       // decimal between 0 and 1
   frac-limit: 1e-5,     // decimal between 0 and 1
   tolerance: 0.001pt,   // length
@@ -75,7 +75,7 @@ The initial direction that the dividing fraction is moved. Changing this value w
 > [!NOTE]
 > The program is hardcoded to switch directions if a solution is not found in the initial direction. This parameter mainly serves to let you easily choose between [multiple solutions](#oasis-align-2).
 
-### `forced-frac` (decimal between 0 and 1)
+### `force-frac` (decimal between 0 and 1)
 A last resort parameter that bypasses the `oasis-align` algorithm to use the specific fraction. Useful when the function is misbehaving and you just want to display a user-specified layout. 
 
 ### `min-frac` (decimal between 0 and 1)

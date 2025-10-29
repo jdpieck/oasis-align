@@ -298,17 +298,6 @@
 
 
     // Display images in grid
-    display-output(calcWidth1,calcWidth1, vertical, swap)
-    if vertical {
-      grid(rows: (calcWidth1, calcWidth2),
-        image1,
-        image2
-      ) 
-    } else {
-      grid(columns: (calcWidth1, calcWidth2),
-        image1,
-        image2
-      ) 
-    }
+    display-output(calcWidth1, calcWidth2, vertical, swap)
   })
 }

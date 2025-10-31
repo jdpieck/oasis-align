@@ -7,17 +7,19 @@ To use `oasis-align` in your document, start by importing the package like this:
 ```
 and follow the instructions found under [configuration](#configuration).
 
-## Examples
+## Examples/Use Cases
 ### Image with Text
 ![Animation of image being aligned with text](examples/image-with-text.gif)
+The same can be done with `figure()` instead of `image()`. 
 ### Image with Image
 ![Animation of image being aligned with another image](examples/image-with-image.gif)
+Even if the images are the same aspect ratio, this is a quick way to make them side by side. *NOTE: directly passing the image path is depreciated.*
 ### Text with Text
 ![Animation of text being aligned with differently sized text](examples/text-with-text.gif)
 ### Full Document Implementation
 To see how `oasis-align` can be used in practice, check out my [Onshape boat tutorial](https://github.com/jdpieck/Onshape-Boat-Tutorial) made using Typst!
 
-## General Content Configuration
+## Function Configuration Parameters
 
 A large portion of the following parameters have been made user-accessible for edge case scenarios in which the baseline function is unable to determine a solution. The parameters with defined values are the defaults and should only be changed if you are unable to achieve your desired output.
 
@@ -134,14 +136,11 @@ $$w_1' = \left(\frac{h_1 w_2}{w_1 h_2} + 1 \right)^{-1} \qquad w_2' = \left(\fra
 Presently, I am unable to make the `grid.column-gutter` absolute using the `.to-absolute()` method. Including a relative length in `#set grid(column-gutter)` will throw an error. 
 
 ### Skipping Close Approximations
-Under certain conditions, the function may skip over near-solutions. This is a consequence of the bisection method, which is great for finding exact solutions, but not approximations. 
+Under certain conditions, the function may skip over near-solutions. This is a consequence of using bisection method for root finding, which is not ideal for discontinuous systems and optimized solutions. 
 
 To address this, a large portion of the code would likely need to be rewritten using a different algorithm that searches outwards from `int-frac`. Further improvements could also likely be made by incrementally increasing the tolerance as the function struggles to find a solution.  
 
 In the meantime, you can get around this by playing with `range` and `int-frac`.
-
-### Possible Integration with [`wrap-it`](https://github.com/ntjess/wrap-it)
-Seeing as the use cases for `oasis-align` and [`wrap-it`](https://github.com/ntjess/wrap-it) are very similar, a combined package could prove to be extremely useful. Implementation would allow for text content to overflow after a solution can no longer be found using `oasis-align`.
 
 ## Contributing and sharing
 If you have suggestions or feedback, please feel free to create an [issue on GitHub](https://github.com/jdpieck/oasis-align/issues). I am particularly open to ideas for improving the solution-finding algorithm.

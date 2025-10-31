@@ -1,3 +1,8 @@
+## 0.3.1 - 2025/10/30
+- fixed duplicate image rendering with `oasis-align-images()`
+    - thanks to @spidersouris for catching this!
+- updated `README.md`
+
 ## 0.3.0 - 2025/03/26 to 2025/06/21
 - added the following parameters
     - `min-frac` 

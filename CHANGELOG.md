@@ -1,3 +1,8 @@
+## 0.3.2 - 2025/11/25
+- separated `/examples` into `/docs` and `/demo`  
+- updated `README.md` to further clarify function use-cases
+    - thanks to @PennDraken for pointing this out!
+
 ## 0.3.1 - 2025/10/30
 - fixed duplicate image rendering with `oasis-align-images()`
     - thanks to @spidersouris for catching this!

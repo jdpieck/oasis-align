@@ -3,17 +3,18 @@
 
 To use `oasis-align` in your document, start by importing the package like this:
 ```typst
-#import "@preview/oasis-align:0.3.1": *
+#import "@preview/oasis-align:0.3.2": *
 ```
 and follow the instructions found under [configuration](#configuration).
 
 ## Examples/Use Cases
+`oasis-align()` can be used to align all types of content! Below are some common use cases.
 ### Image with Text
 ![Animation of image being aligned with text](docs/image-with-text.gif)
 The same can be done with `figure()` instead of `image()`. 
 ### Image with Image
+This can still be done with `oasis-align()`, but if your content has a fixed aspect ratio like an image, `oasis-align-images()` directly finds a solution. *NOTE: directly passing the image path is depreciated.* 
 ![Animation of image being aligned with another image](docs/image-with-image.gif)
-Even if the images are the same aspect ratio, this is a quick way to make them side by side. *NOTE: directly passing the image path is depreciated.*
 ### Text with Text
 ![Animation of text being aligned with differently sized text](docs/text-with-text.gif)
 ### Full Document Implementation
@@ -41,18 +42,17 @@ A large portion of the following parameters have been made user-accessible for e
   item2,                // content
 )
 
-// OR IF YOU ARE ALIGNING IMAGES //
+// IF YOU ARE ALIGNING IMAGES OR OTHER FIXED-ASPECT RATIO CONTENT
 
 #oasis-align-images(
   swap: false,          // boolean
   vertical: false,      // boolean
-  item1,                // content
-  item2,                // content
+  item1,                // fixed-aspect ratio content content
+  item2,                // fixed-aspect ratio content content
 )
 ```
 
-> [!IMPORTANT]
-> To change the size of the grid gutter in both functions, use `#set grid(column-gutter: length)`. This is necessary to allow for fixed rules that aren't possible with user-defined functions. 
+*IMPORTANT: To change the size of the grid gutter in both functions, use `#set grid(column-gutter: length)`. This is necessary to allow for fixed rules that aren't possible with user-defined functions.*
 
 ### `swap` (boolean)
 Swap the positions of `item1` and `item2` on the grid. You can achieve an identical output by manually switching the content of `item1` and `item2`. Note that input parameters such as `forced-frac` and `int-frac` consider the content before it has been swapped.

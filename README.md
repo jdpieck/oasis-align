@@ -9,13 +9,13 @@ and follow the instructions found under [configuration](#configuration).
 
 ## Examples/Use Cases
 ### Image with Text
-![Animation of image being aligned with text](examples/image-with-text.gif)
+![Animation of image being aligned with text](docs/image-with-text.gif)
 The same can be done with `figure()` instead of `image()`. 
 ### Image with Image
-![Animation of image being aligned with another image](examples/image-with-image.gif)
+![Animation of image being aligned with another image](docs/image-with-image.gif)
 Even if the images are the same aspect ratio, this is a quick way to make them side by side. *NOTE: directly passing the image path is depreciated.*
 ### Text with Text
-![Animation of text being aligned with differently sized text](examples/text-with-text.gif)
+![Animation of text being aligned with differently sized text](docs/text-with-text.gif)
 ### Full Document Implementation
 To see how `oasis-align` can be used in practice, check out my [Onshape boat tutorial](https://github.com/jdpieck/Onshape-Boat-Tutorial) made using Typst!
 
@@ -63,7 +63,7 @@ Align the horizontal limits of the content when stacked vertically. This can be 
 ### `ruler` (boolean)
 Display a ruler overlay on top of the content. Useful for determining fractional values for other input parameters. 
 
-![Image of output with parameter `ruler: true`](examples/ruler.png)
+![Image of output with parameter `ruler: true`](docs/ruler.png)
 
 ### `range` (array of two decimals between 0 and 1)
 Limits the solution-finding algorithm to a specific fractional range. Useful when you are only interested in finding alignments to fit a specific form factor. 
@@ -111,7 +111,7 @@ Originally designed to allow for an image to be placed side-by-side with text, t
 
 The function starts by taking the available space and then splitting it using the `int-frac`. The content is then placed in a block with the width as determined using the split from `int-frac` before measuring its height. Based on the `int-dir`, the split will be moved left or right using the bisection method until a solution within the `tolerance` has been found. In the case that a solution within the `tolerance` is not found within the `max-iterations`, the program terminates and uses the container width fraction that had the smallest difference in height. 
 
-![Series of graphs visualizing the block width versus height of content](examples/graph-visualization.svg)
+![Series of graphs visualizing the block width versus height of content](docs/graph-visualization.svg)
 
 ### Multiple Solutions (1st Graph)
 Depending on the type of content, the function may find multiple solutions. The parameters `int-dir` and `int-frac` will allow you to choose between them by changing the direction in which it iterates and changing the starting container width fraction respectively. 

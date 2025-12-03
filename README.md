@@ -5,7 +5,7 @@ To use `oasis-align` in your document, start by importing the package like this:
 ```typst
 #import "@preview/oasis-align:0.3.2": *
 ```
-and follow the instructions found under [configuration](#configuration).
+and follow the instructions found under [configuration](#function-configuration-parameters).
 
 ## Examples/Use Cases
 `oasis-align()` can be used to align all types of content! Below are some common use cases.
@@ -69,13 +69,13 @@ Display a ruler overlay on top of the content. Useful for determining fractional
 Limits the solution-finding algorithm to a specific fractional range. Useful when you are only interested in finding alignments to fit a specific form factor. 
 
 ### `int-frac` (decimal between 0 and 1)
-The starting point of the search process. Changing this value may reduce the total number of iterations of the function or find an [alternate solution](#oasis-align-2). By default, `int-frac` will be the midpoint of the specified `range`. For example, a `range` of `(0, 0.6)` will have an `int-frac` of `0.3`.  
+The starting point of the search process. Changing this value may reduce the total number of iterations of the function or find an [alternate solution](#multiple-solutions-1st-graph). By default, `int-frac` will be the midpoint of the specified `range`. For example, a `range` of `(0, 0.6)` will have an `int-frac` of `0.3`.  
 
 ### `int-dir` (-1 or 1)
 The initial direction that the dividing fraction is moved. Changing this value will change the initial direction.
 
 > [!NOTE]
-> The program is hardcoded to switch directions if a solution is not found in the initial direction. This parameter mainly serves to let you easily choose between [multiple solutions](#oasis-align-2).
+> The program is hardcoded to switch directions if a solution is not found in the initial direction. This parameter mainly serves to let you easily choose between [multiple solutions](#multiple-solutions-1st-graph).
 
 ### `force-frac` (decimal between 0 and 1)
 A last resort parameter that bypasses the `oasis-align` algorithm to use the specific fraction. Useful when the function is misbehaving and you just want to display a user-specified layout. 
@@ -90,7 +90,7 @@ The minimum difference in fraction values between function iterations. Prevents 
 The maximum allowable difference in heights between `item1` and `item2`. The function will run until it has reached either this `tolerance` or `max-iterations`. Increasing `tolerance` may reduce the total number of iterations but result in a larger height difference between the pieces of content.  
 
 > [!NOTE]
-> Two pieces of content may not always be able to achieve the desired `tolerance`. In that case, the function sizes the content to the iteration that had the least difference in height. _Check out [how it works](#oasis-align-2) to understand why the function may not be able to achieve the desired `tolerance`._
+> Two pieces of content may not always be able to achieve the desired `tolerance`. In that case, the function sizes the content to the iteration that had the least difference in height. _Check out [how it works](#how-oasis-align-works) to understand why the function may not be able to achieve the desired `tolerance`._
 
 ### `max-iterations` (integer greater than 0)
 The maximum number of iterations the function is allowed to attempt before terminating. Increasing this number may allow you to achieve a smaller `tolerance`.

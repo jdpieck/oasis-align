@@ -3,19 +3,20 @@
 
 To use `oasis-align` in your document, start by importing the package like this:
 ```typst
-#import "@preview/oasis-align:0.3.1": *
+#import "@preview/oasis-align:0.3.2": *
 ```
-and follow the instructions found under [configuration](#configuration).
+and follow the instructions found under [configuration](#function-configuration-parameters).
 
 ## Examples/Use Cases
+`oasis-align()` can be used to align all types of content! Below are some common use cases.
 ### Image with Text
-![Animation of image being aligned with text](examples/image-with-text.gif)
+![Animation of image being aligned with text](docs/image-with-text.gif)
 The same can be done with `figure()` instead of `image()`. 
 ### Image with Image
-![Animation of image being aligned with another image](examples/image-with-image.gif)
-Even if the images are the same aspect ratio, this is a quick way to make them side by side. *NOTE: directly passing the image path is depreciated.*
+This can still be done with `oasis-align()`, but if your content has a fixed aspect ratio like an image, `oasis-align-images()` directly finds a solution. *NOTE: directly passing the image path is depreciated.* 
+![Animation of image being aligned with another image](docs/image-with-image.gif)
 ### Text with Text
-![Animation of text being aligned with differently sized text](examples/text-with-text.gif)
+![Animation of text being aligned with differently sized text](docs/text-with-text.gif)
 ### Full Document Implementation
 To see how `oasis-align` can be used in practice, check out my [Onshape boat tutorial](https://github.com/jdpieck/Onshape-Boat-Tutorial) made using Typst!
 
@@ -41,18 +42,17 @@ A large portion of the following parameters have been made user-accessible for e
   item2,                // content
 )
 
-// OR IF YOU ARE ALIGNING IMAGES //
+// IF YOU ARE ALIGNING IMAGES OR OTHER FIXED-ASPECT RATIO CONTENT
 
 #oasis-align-images(
   swap: false,          // boolean
   vertical: false,      // boolean
-  item1,                // content
-  item2,                // content
+  item1,                // fixed-aspect ratio content content
+  item2,                // fixed-aspect ratio content content
 )
 ```
 
-> [!IMPORTANT]
-> To change the size of the grid gutter in both functions, use `#set grid(column-gutter: length)`. This is necessary to allow for fixed rules that aren't possible with user-defined functions. 
+*IMPORTANT: To change the size of the grid gutter in both functions, use `#set grid(column-gutter: length)`. This is necessary to allow for fixed rules that aren't possible with user-defined functions.*
 
 ### `swap` (boolean)
 Swap the positions of `item1` and `item2` on the grid. You can achieve an identical output by manually switching the content of `item1` and `item2`. Note that input parameters such as `forced-frac` and `int-frac` consider the content before it has been swapped.
@@ -63,19 +63,19 @@ Align the horizontal limits of the content when stacked vertically. This can be 
 ### `ruler` (boolean)
 Display a ruler overlay on top of the content. Useful for determining fractional values for other input parameters. 
 
-![Image of output with parameter `ruler: true`](examples/ruler.png)
+![Image of output with parameter `ruler: true`](docs/ruler.png)
 
 ### `range` (array of two decimals between 0 and 1)
 Limits the solution-finding algorithm to a specific fractional range. Useful when you are only interested in finding alignments to fit a specific form factor. 
 
 ### `int-frac` (decimal between 0 and 1)
-The starting point of the search process. Changing this value may reduce the total number of iterations of the function or find an [alternate solution](#oasis-align-2). By default, `int-frac` will be the midpoint of the specified `range`. For example, a `range` of `(0, 0.6)` will have an `int-frac` of `0.3`.  
+The starting point of the search process. Changing this value may reduce the total number of iterations of the function or find an [alternate solution](#multiple-solutions-1st-graph). By default, `int-frac` will be the midpoint of the specified `range`. For example, a `range` of `(0, 0.6)` will have an `int-frac` of `0.3`.  
 
 ### `int-dir` (-1 or 1)
 The initial direction that the dividing fraction is moved. Changing this value will change the initial direction.
 
 > [!NOTE]
-> The program is hardcoded to switch directions if a solution is not found in the initial direction. This parameter mainly serves to let you easily choose between [multiple solutions](#oasis-align-2).
+> The program is hardcoded to switch directions if a solution is not found in the initial direction. This parameter mainly serves to let you easily choose between [multiple solutions](#multiple-solutions-1st-graph).
 
 ### `force-frac` (decimal between 0 and 1)
 A last resort parameter that bypasses the `oasis-align` algorithm to use the specific fraction. Useful when the function is misbehaving and you just want to display a user-specified layout. 
@@ -90,7 +90,7 @@ The minimum difference in fraction values between function iterations. Prevents 
 The maximum allowable difference in heights between `item1` and `item2`. The function will run until it has reached either this `tolerance` or `max-iterations`. Increasing `tolerance` may reduce the total number of iterations but result in a larger height difference between the pieces of content.  
 
 > [!NOTE]
-> Two pieces of content may not always be able to achieve the desired `tolerance`. In that case, the function sizes the content to the iteration that had the least difference in height. _Check out [how it works](#oasis-align-2) to understand why the function may not be able to achieve the desired `tolerance`._
+> Two pieces of content may not always be able to achieve the desired `tolerance`. In that case, the function sizes the content to the iteration that had the least difference in height. _Check out [how it works](#how-oasis-align-works) to understand why the function may not be able to achieve the desired `tolerance`._
 
 ### `max-iterations` (integer greater than 0)
 The maximum number of iterations the function is allowed to attempt before terminating. Increasing this number may allow you to achieve a smaller `tolerance`.
@@ -111,7 +111,7 @@ Originally designed to allow for an image to be placed side-by-side with text, t
 
 The function starts by taking the available space and then splitting it using the `int-frac`. The content is then placed in a block with the width as determined using the split from `int-frac` before measuring its height. Based on the `int-dir`, the split will be moved left or right using the bisection method until a solution within the `tolerance` has been found. In the case that a solution within the `tolerance` is not found within the `max-iterations`, the program terminates and uses the container width fraction that had the smallest difference in height. 
 
-![Series of graphs visualizing the block width versus height of content](examples/graph-visualization.svg)
+![Series of graphs visualizing the block width versus height of content](docs/graph-visualization.svg)
 
 ### Multiple Solutions (1st Graph)
 Depending on the type of content, the function may find multiple solutions. The parameters `int-dir` and `int-frac` will allow you to choose between them by changing the direction in which it iterates and changing the starting container width fraction respectively. 

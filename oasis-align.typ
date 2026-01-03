@@ -68,6 +68,12 @@
       if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
       else {grid.column-gutter.at(0)}
     }
+    // Convert `relative` length to absolute `length`.
+    let gutter = gutter.length.to-absolute() + gutter.ratio * if vertical {
+      measured-container.height
+    } else {
+      measured-container.width
+    }
     let max-dim = if vertical {measured-container.height - gutter}
                    else {measured-container.width - gutter}
     // let thing1 = (

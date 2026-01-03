@@ -64,15 +64,16 @@
     // Relevant container side, depending on `vertical`.
     let side = if vertical {"height"} else {"width"}
     let container-side = measured-container.at(side)
-    let gutter = if vertical {
-      if grid.row-gutter == () {0pt} // In case grid.gutter is not defined
-      else {grid.row-gutter.at(0)}
-    } else {
-      if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
-      else {grid.column-gutter.at(0)}
+    let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
+    let gutter = {
+      // In case grid.gutter is not defined, otherwise get first track sizing.
+      let gutter = if grid-gutter == () {0% + 0pt} else {grid-gutter.first()}
+      // In case grid.gutter is `int`, `auto`, `fraction`, ignore the value.
+      if gutter == auto or type(gutter) == fraction { gutter = 0% + 0pt }
+      // Convert `relative` length to absolute `length`.
+      gutter = container-side * gutter.ratio + gutter.length.to-absolute()
+      gutter
     }
-    // Convert `relative` length to absolute `length`.
-    let gutter = container-side * gutter.ratio + gutter.length.to-absolute()
     let max-dim = container-side - gutter
     // let thing1 = (
     //   dim-a: length, 

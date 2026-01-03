@@ -288,15 +288,19 @@
   layout(measured-container => {
     // Measure size of continaner
     // let container = size.width
-    let gutter = if vertical {
-      if grid.row-gutter == () {0pt} // In case grid.gutter is not defined
-      else {grid.row-gutter.at(0)}
-    } else {
-      if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
-      else {grid.column-gutter.at(0)}
+    let side = if vertical {"height"} else {"width"}
+    let container-side = measured-container.at(side)
+    let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
+    let gutter = {
+      // In case grid.gutter is not defined, otherwise get first track sizing.
+      let gutter = if grid-gutter == () {0% + 0pt} else {grid-gutter.first()}
+      // In case grid.gutter is `int`, `auto`, `fraction`, ignore the value.
+      if gutter == auto or type(gutter) == fraction { gutter = 0% + 0pt }
+      // Convert `relative` length to absolute `length`.
+      gutter = container-side * gutter.ratio + gutter.length.to-absolute()
+      gutter
     }
-    let max-dim = if vertical {measured-container.height - gutter}
-                   else {measured-container.width - gutter}
+    let max-dim = container-side - gutter
     // Set widths of images
     let calcWidth1 = (max-dim)/(1/ratio + 1)
     let calcWidth2 = (max-dim)/(ratio + 1)

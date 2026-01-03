@@ -61,6 +61,9 @@
     //   max: if vertical {measured-container.height - gutter}
     //                else {measured-container.width - container.gutter},
     // )
+    // Relevant container side, depending on `vertical`.
+    let side = if vertical {"height"} else {"width"}
+    let container-side = measured-container.at(side)
     let gutter = if vertical {
       if grid.row-gutter == () {0pt} // In case grid.gutter is not defined
       else {grid.row-gutter.at(0)}
@@ -69,13 +72,8 @@
       else {grid.column-gutter.at(0)}
     }
     // Convert `relative` length to absolute `length`.
-    let gutter = gutter.length.to-absolute() + gutter.ratio * if vertical {
-      measured-container.height
-    } else {
-      measured-container.width
-    }
-    let max-dim = if vertical {measured-container.height - gutter}
-                   else {measured-container.width - gutter}
+    let gutter = container-side * gutter.ratio + gutter.length.to-absolute()
+    let max-dim = container-side - gutter
     // let thing1 = (
     //   dim-a: length, 
     //   dim-b: length,

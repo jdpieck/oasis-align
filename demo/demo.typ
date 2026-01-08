@@ -4,7 +4,8 @@
 
 #set page(width: 6in, height: auto, margin: 1in)
 #set par(justify: true)
-#set grid(column-gutter: .2in)
+// #set grid(column-gutter: .2in)
+#set grid(column-gutter: 4%)
 
 #let words = [This is me writing about my cat. I love my cat. He is the best of cats. I give him head scratches until he gets mad at me. He then he starts swatting at my hand. This goes on until my hand gets scratched.]
 

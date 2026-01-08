@@ -50,36 +50,27 @@
   
   // use layout to measure measured-container
   layout(measured-container => {
-    // let container = (
-    //   gutter: if vertical {
-    //     if grid.row-gutter == () {0pt} // In case grid.gutter is not defined
-    //     else {grid.row-gutter.at(0)}
-    //   } else {
-    //     if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
-    //     else {grid.column-gutter.at(0)}
-    //   },
-    //   max: if vertical {measured-container.height - gutter}
-    //                else {measured-container.width - container.gutter},
-    // )
-    let gutter = if vertical {
-      if grid.row-gutter == () {0pt} // In case grid.gutter is not defined
-      else {grid.row-gutter.at(0)}
-    } else {
-      if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
-      else {grid.column-gutter.at(0)}
+
+    // Relevant container side, depending on `vertical`.
+    let side = if vertical {"height"} else {"width"}
+    let container-side = measured-container.at(side)
+    let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
+    let gutter = {
+      // In case grid.gutter is not defined, otherwise get first track sizing.
+      let gutter = if grid-gutter == () {0% + 0pt} else {grid-gutter.first()}
+      // In case grid.gutter is `int`, `auto`, `fraction`, ignore the value.
+      if gutter == auto or type(gutter) == fraction { gutter = 0% + 0pt }
+      // Convert `relative` length to absolute `length`.
+      gutter = container-side * gutter.ratio + gutter.length.to-absolute()
+      gutter
     }
-    let max-dim = if vertical {measured-container.height - gutter}
-                   else {measured-container.width - gutter}
-    // let thing1 = (
-    //   dim-a: length, 
-    //   dim-b: length,
-    // )
+
+    let max-dim = container-side - gutter
     let dim-1a    // Bounding dimension of item1
     let dim-2a    // Bounding dimension of item2
     let dim-1b   // Measured dimension of item1 using dim-1a
     let dim-2b   // Measured dimension of item2 using dim-2a
     let start-frac = if int-frac == none {(range.last() + range.first())/2} else {int-frac}
-    // let start-frac = .5
     let frac = start-frac
     let previous-frac 
     let frac-diff = start-frac
@@ -112,7 +103,6 @@
       let diff = calc.abs(out1 - out2)
 
       return (out1, out2, diff)
-
     }
 
     let display-output(dim1, dim2, vertical, swap) = {
@@ -140,9 +130,23 @@
         line-angle = 90deg
       }
 
-      let major-line  = line(length: ruler-dim * ratio, angle: line-angle, stroke: (thickness: .4em, paint: color, cap: "round"))
-      let median-line = line(length: ruler-dim * ratio * .8, angle: line-angle, stroke: (thickness: .3em, paint: color, cap: "round"))
-      let minor-line  = line(length: ruler-dim * ratio * .5 , angle: line-angle, stroke: (thickness: .3em, paint: color, cap: "round"))
+      let major-line  = line(
+        length: ruler-dim * ratio, 
+        angle: line-angle, 
+        stroke: (thickness: .4em, paint: color, cap: "round")
+      )
+
+      let median-line = line(
+        length: ruler-dim * ratio * .8, 
+        angle: line-angle, 
+        stroke: (thickness: .3em, paint: color, cap: "round")
+      )
+
+      let minor-line  = line(
+        length: ruler-dim * ratio * .5, 
+        angle: line-angle, 
+        stroke: (thickness: .3em, paint: color, cap: "round")
+      )
       
       place(
         horizon + center, 
@@ -283,15 +287,20 @@
   layout(measured-container => {
     // Measure size of continaner
     // let container = size.width
-    let gutter = if vertical {
-      if grid.row-gutter == () {0pt} // In case grid.gutter is not defined
-      else {grid.row-gutter.at(0)}
-    } else {
-      if grid.column-gutter == () {0pt} // In case grid.gutter is not defined
-      else {grid.column-gutter.at(0)}
+    let side = if vertical {"height"} else {"width"}
+    let container-side = measured-container.at(side)
+    let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
+    let gutter = {
+      // In case grid.gutter is not defined, otherwise get first track sizing.
+      let gutter = if grid-gutter == () {0% + 0pt} else {grid-gutter.first()}
+      // In case grid.gutter is `int`, `auto`, `fraction`, ignore the value.
+      if gutter == auto or type(gutter) == fraction { gutter = 0% + 0pt }
+      // Convert `relative` length to absolute `length`.
+      gutter = container-side * gutter.ratio + gutter.length.to-absolute()
+      gutter
     }
-    let max-dim = if vertical {measured-container.height - gutter}
-                   else {measured-container.width - gutter}
+    
+    let max-dim = container-side - gutter
     // Set widths of images
     let calcWidth1 = (max-dim)/(1/ratio + 1)
     let calcWidth2 = (max-dim)/(ratio + 1)

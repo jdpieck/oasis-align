@@ -1,3 +1,7 @@
+## 0.3.3 - 2026/01/08
+- fixed relative length issue for gutters
+    - thanks to @Andrew15-5 for the fix!
+
 ## 0.3.2 - 2025/11/25
 - separated `/examples` into `/docs` and `/demo`  
 - updated `README.md` to further clarify function use-cases

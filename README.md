@@ -3,7 +3,7 @@
 
 To use `oasis-align` in your document, start by importing the package like this:
 ```typst
-#import "@preview/oasis-align:0.3.2": *
+#import "@preview/oasis-align:0.3.3": *
 ```
 and follow the instructions found under [configuration](#function-configuration-parameters).
 

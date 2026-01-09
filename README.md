@@ -132,9 +132,6 @@ $$w_1' = \left(\frac{h_1 w_2}{w_1 h_2} + 1 \right)^{-1} \qquad w_2' = \left(\fra
 "Oasis" as in a fertile spot in a desert, where water is found. -->
 
 ## Future Work
-### Allow for Relative `grid.column-gutter` sizes
-Presently, I am unable to make the `grid.column-gutter` absolute using the `.to-absolute()` method. Including a relative length in `#set grid(column-gutter)` will throw an error. 
-
 ### Skipping Close Approximations
 Under certain conditions, the function may skip over near-solutions. This is a consequence of using bisection method for root finding, which is not ideal for discontinuous systems and optimized solutions. 
 

@@ -1,5 +1,6 @@
 #import "utils.typ": *
 
+
 #let oasis-align-images(
   vertical: false,
   swap: false, 
@@ -17,12 +18,7 @@
     let container-side = if vertical { measured-container.height } else { measured-container.width }
     let margins = process-margin(margin, container-side)
     let gutter = process-gutter(vertical, container-side)
-
-    // Find dimensional ratio between images
-    let block1 = measure(image1)
-    let block2 = measure(image2)
-    let ratio = if vertical {(block1.height/block1.width)*block2.width/block2.height}
-                else {(block1.width/block1.height)*block2.height/block2.width}
+    let ratio = find-image-ratio(image1, image2, vertical)
     
     let max-dim = container-side - gutter - margins.first() - margins.last()
     // Set widths of images

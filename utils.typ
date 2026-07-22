@@ -1,3 +1,13 @@
+// #let check-content-type(input) = {
+//   // assert(type(input) == content, message: "The input arguments must be a type of content!")
+
+//   if input.func() == image {"image"}
+//   else if input.func() == figure {
+//     if input.body.func() == image {"image-figure"}
+//   } else {"other"}
+}
+
+
 #let split-layout(max-distance, fraction) = {
       let dim1 = fraction * max-distance
       let dim2 = (1 - fraction) * max-distance
@@ -59,6 +69,13 @@
     gutter 
 }
 
+#let find-image-ratio(image1, image2, vertical) = {
+  let block1 = measure(image1)
+  let block2 = measure(image2)
+
+  if vertical {(block1.height/block1.width)*block2.width/block2.height}
+  else {(block1.width/block1.height)*block2.height/block2.width}
+}
 
 #let show-ruler(
   ruler-state,
@@ -162,4 +179,18 @@
       )
       }
   }
+}
+
+  // Debug functions
+#let heads-up(message) = if debug {block(text(blue, weight: "bold", message))}
+#let warning(message) = if debug {block(text(red.darken(15%), weight: "bold", message))}
+#let success(message) = if debug {block(text(green.darken(30%), weight: "bold", message))}
+#let system-info(message) = if debug {
+  show raw.where(block: false): box.with(
+      fill: luma(240),
+      inset: (x: 3pt, y: 0pt),
+      outset: (y: 3pt),
+      radius: 2pt,
+    )  
+    message
 }

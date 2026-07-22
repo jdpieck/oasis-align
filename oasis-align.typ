@@ -1,4 +1,6 @@
 #import "utils.typ": *
+// #import "oasis-align-images.typ": oasis-align-images
+// #import "oasis-align-figures.typ": oasis-align-figures
 
 #let oasis-align(
   vertical: false,
@@ -18,6 +20,20 @@
   item2, 
 ) = context {
 
+  // Debug functions
+  let heads-up(message) = if debug {block(text(blue, weight: "bold", message))}
+  let warning(message) = if debug {block(text(red.darken(15%), weight: "bold", message))}
+  let success(message) = if debug {block(text(green.darken(30%), weight: "bold", message))}
+  let system-info(message) = if debug {
+    show raw.where(block: false): box.with(
+        fill: luma(240),
+        inset: (x: 3pt, y: 0pt),
+        outset: (y: 3pt),
+        radius: 2pt,
+      )  
+      message
+  }
+
   let check-fraction(parameter) = (type(parameter) == float or parameter == 1  or parameter == 0) and parameter >= 0 and parameter <= 1
 
   // Check that inputs are valid
@@ -36,23 +52,14 @@
   assert(type(debug) == bool, message: "Debug feed can be turned on or off only using boolean!")
   
 
-  // Debug functions
-  let heads-up(message) = if debug {block(text(blue, weight: "bold", message))}
-  let warning(message) = if debug {block(text(red.darken(15%), weight: "bold", message))}
-  let success(message) = if debug {block(text(green.darken(30%), weight: "bold", message))}
-  let system-info(message) = if debug {
-    show raw.where(block: false): box.with(
-        fill: luma(240),
-        inset: (x: 3pt, y: 0pt),
-        outset: (y: 3pt),
-        radius: 2pt,
-      )  
-      message
-  }
-  
-  
   // use layout to measure measured-container
   layout(measured-container => {
+
+    // let content-type1 = check-content-type(item1)
+    // let content-type2 = check-content-type(item2)
+    // if content-type1 == "image" and content-type2 == "image" {
+    //   oasis-align-images(vertical: vertical, swap: swap, margin: margin, item1, image2)
+    // }
 
     // Relevant container side, depending on `vertical`.
     let container-side = if vertical { measured-container.height } else { measured-container.width }
@@ -77,12 +84,7 @@
     let n = 0
     let dir-change = 0
     let override = if force-frac != none {true} else {false}
-
-    let split-layout(max-distance, fraction) = {
-      let dim1 = fraction * max-distance
-      let dim2 = (1 - fraction) * max-distance
-      return (dim1, dim2)
-    }
+  
 
     // Loop max to prevent infinite loop
     while n < max-iterations {

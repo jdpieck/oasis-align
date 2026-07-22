@@ -13,6 +13,23 @@
 #let words = [This is me writing about my cat. I love my cat. He is the best of cats. I give him head scratches until he gets mad at me. He then he starts swatting at my hand. This goes on until my hand gets scratched.]
 
 #let cat = image("blanket.jpg")
+#let cat-fig = [#figure(
+  cat, 
+  caption: [This is a caption]
+) <thihng>]
+
+// #cat.func()
+// #cat-fig.func()
+#cat-fig.fields()
+#repr(cat-fig)
+
+#type(cat-fig)
+
+
+#cat-fig.has("label")
+
+// #cat-fig.body.func()
+
 
 // #place(line(length: 2in, angle: 90deg, stroke: 5pt))
 
@@ -36,17 +53,16 @@
   // margin: (0in, 5pt),
   // int-dir: -1, 
   // force1: true,
-  // range: (0.5, 1),
+  range: (0.5, 1),
   // range: (0, .75),
   // int-frac: .6,
-  // forced-frac: .4, 
+  // force-frac: .4, 
   // int-frac: .46,
   // max-iterations: 100,
   // min-frac: .2,
   // debug: true,
   // swap: true,
-  // show-ruler: true,
-  ruler: true,
+  // ruler: true,
   cat, 
   words
 )

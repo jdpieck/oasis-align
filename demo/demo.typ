@@ -73,7 +73,7 @@
   // swap: true,
   // min-frac: 0.2,
   // ruler: true,
-  margin: .5in,
+  margin: (30pt, 30%),
   image("blanket.jpg"), 
   image("box.jpg"),
   // path("blanket.jpg"), 

@@ -335,72 +335,7 @@
   image2
 ) = context {
 
-  let process-margin(m) = {
-    if type(m) == length {
-      m.to-absolute()
-    } else if type(m) == ratio {
-      m * container-side
-    } else if type(m) == relative {
-      m.ratio * container-side + m.length.to-absolute()
-    } else {
-      panic("Incorrect margin entry type: expected length, ratio, or relative, got " + str(type(m)))
-    }
-  }
-
-  let margins = {
-    if type(margin) == array {
-      if margin.len() != 2 {
-        panic("Margin array must contain exactly two entries!")
-      }
-      (process-margin(margin.at(0)), process-margin(margin.at(1)))
-    } else {
-      let calc-margin = process-margin(margin)
-      (calc-margin, calc-margin)
-    }
-  }
-
-  // Find dimentional ratio between images
-  let block1 = measure(image1)
-  let block2 = measure(image2)
-  let ratio = if vertical {(block1.height/block1.width)*block2.width/block2.height}
-              else {(block1.width/block1.height)*block2.height/block2.width}
-
   
-  let display-output(dim1, dim2, vertical, swap) = {
-        if vertical {
-          if swap {
-            pad(
-              top: margins.first(),
-              bottom: margins.last(),
-              grid(rows: (dim2, dim1), image2, image1)
-            )
-            }
-          else    {
-            pad(
-              top: margins.first(),
-              bottom: margins.last(),
-              grid(rows: (dim1, dim2), image1, image2)
-            )
-            }
-        }
-        else {
-          if swap {
-            pad(
-              left: margins.first(),
-              right: margins.last(),
-              grid(columns: (dim2, dim1), image2, image1)
-            )
-            }
-          else    {
-            pad(
-              left: margins.first(),
-              right: margins.last(),
-              grid(columns: (dim1, dim2), image1, image2)
-            )
-            }
-        }
-      }
-
   layout(measured-container => {
     // Measure size of continaner
     // let container = size.width
@@ -417,12 +352,77 @@
       gutter = container-side * gutter.ratio + gutter.length.to-absolute()
       gutter
     }
+
+    let process-margin(m) = {
+      if type(m) == length {
+        m.to-absolute()
+      } else if type(m) == ratio {
+        m * container-side
+      } else if type(m) == relative {
+        m.ratio * container-side + m.length.to-absolute()
+      } else {
+        panic("Incorrect margin entry type: expected length, ratio, or relative, got " + str(type(m)))
+      }
+    }
+
+    let margins = {
+      if type(margin) == array {
+        if margin.len() != 2 {
+          panic("Margin array must contain exactly two entries!")
+        }
+        (process-margin(margin.at(0)), process-margin(margin.at(1)))
+      } else {
+        let calc-margin = process-margin(margin)
+        (calc-margin, calc-margin)
+      }
+    }
+
+    
+    let display-output(dim1, dim2, vertical, swap) = {
+      if vertical {
+        if swap {
+          pad(
+            top: margins.first(),
+            bottom: margins.last(),
+            grid(rows: (dim2, dim1), image2, image1)
+          )
+        }
+        else {
+          pad(
+            top: margins.first(),
+            bottom: margins.last(),
+            grid(rows: (dim1, dim2), image1, image2)
+          )
+        }
+      }
+      else {
+        if swap {
+          pad(
+            left: margins.first(),
+            right: margins.last(),
+            grid(columns: (dim2, dim1), image2, image1)
+          )
+        }
+        else {
+          pad(
+            left: margins.first(),
+            right: margins.last(),
+            grid(columns: (dim1, dim2), image1, image2)
+          )
+        }
+      }
+    }
+
+      // Find dimentional ratio between images
+    let block1 = measure(image1)
+    let block2 = measure(image2)
+    let ratio = if vertical {(block1.height/block1.width)*block2.width/block2.height}
+                else {(block1.width/block1.height)*block2.height/block2.width}
     
     let max-dim = container-side - gutter - margins.first() - margins.last()
     // Set widths of images
     let calcWidth1 = (max-dim)/(1/ratio + 1)
     let calcWidth2 = (max-dim)/(ratio + 1)
-
 
     // Display images in grid
     display-output(calcWidth1, calcWidth2, vertical, swap)

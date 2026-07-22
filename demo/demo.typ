@@ -1,6 +1,9 @@
-#import "../oasis-align.typ": *
+// #import "../oasis-align.typ": *
+// #import "../oasis-align-images.typ": *
+#import "../lib.typ": *
 // #import "@preview/oasis-align:0.2.0": *
 // #import "@local/oasis-align:0.2.0": *
+// 
 
 #set page(width: 6in, height: auto, margin: 1in)
 #set par(justify: true)
@@ -23,30 +26,30 @@
 // #type(cat)
 
 // #image("blanket.jpg", width: 6% + 1in)
-// #oasis-align(
-//   // margin: 6% ,
-//   // margin: 20pt + 5%,
-//   // margin: 9pt,
-//   margin: (15pt + 3em, 5pt + 7%),
-//   // margin: (0in, 5pt),
-//   // margin: (1in, 5pt),
-//   // margin: (0in, 5pt),
-//   // int-dir: -1, 
-//   // force1: true,
-//   // range: (0.5, 1),
-//   // range: (0, .75),
-//   // int-frac: .6,
-//   // forced-frac: .4, 
-//   // int-frac: .46,
-//   // max-iterations: 100,
-//   // min-frac: .2,
-//   // debug: true,
-//   // swap: true,
-//   // show-ruler: true,
-//   ruler: true,
-//   cat, 
-//   words
-// )
+#oasis-align(
+  // margin: 6% ,
+  // margin: 20pt + 5%,
+  // margin: 9pt,
+  margin: (15pt + 3em, 5pt + 7%),
+  // margin: (0in, 5pt),
+  // margin: (1in, 5pt),
+  // margin: (0in, 5pt),
+  // int-dir: -1, 
+  // force1: true,
+  // range: (0.5, 1),
+  // range: (0, .75),
+  // int-frac: .6,
+  // forced-frac: .4, 
+  // int-frac: .46,
+  // max-iterations: 100,
+  // min-frac: .2,
+  // debug: true,
+  // swap: true,
+  // show-ruler: true,
+  ruler: true,
+  cat, 
+  words
+)
 
 // #v(3em)
 // // #grid(columns: (1fr, 1.19fr),  
@@ -65,7 +68,7 @@
 //   image("blanket.jpg"), 
 //   image("box.jpg"),
 // )
-
+// #set grid(gutter: 2em)
 #oasis-align-images(
   // debug: true,
   // int-dir: -1,
@@ -73,7 +76,7 @@
   // swap: true,
   // min-frac: 0.2,
   // ruler: true,
-  margin: (30pt, 30%),
+  // margin: (30pt, 30%),
   image("blanket.jpg"), 
   image("box.jpg"),
   // path("blanket.jpg"), 

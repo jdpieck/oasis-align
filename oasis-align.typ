@@ -1,3 +1,5 @@
+#import "utils.typ": *
+
 #let oasis-align(
   vertical: false,
   swap: false,
@@ -21,7 +23,6 @@
   // Check that inputs are valid
   assert(type(vertical) == bool, message: "Vertical parameter condition must be true or false!")
   assert(type(swap) == bool, message: "Swap parameter must be true or false!")
-  // assert(ty)
   assert(type(range) == array and range.len() == 2 and range.all(it => check-fraction(it)), message: "Range must be an array of two fractions!")
   assert(int-dir == -1 or int-dir == 1, message: "Initial direction parameter must be 1 or -1!")
   assert(int-frac == none or check-fraction(int-frac), message:"Initial fraction must be between 0 and 1!")
@@ -33,7 +34,7 @@
   assert(type(max-iterations) == int, message: "The maximum number of iterations must be an integer! Lowering the number may find a solution quicker, but it may no be within tolerance.")
   assert(type(ruler) == bool, message: "Ruler can be turned on or off only using boolean!")
   assert(type(debug) == bool, message: "Debug feed can be turned on or off only using boolean!")
-
+  
 
   // Debug functions
   let heads-up(message) = if debug {block(text(blue, weight: "bold", message))}
@@ -55,42 +56,8 @@
 
     // Relevant container side, depending on `vertical`.
     let container-side = if vertical { measured-container.height } else { measured-container.width }
-    let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
-
-    let gutter = {
-      // In case grid.gutter is not defined, otherwise get first track sizing.
-      let gutter = if grid-gutter == () {0% + 0pt} else {grid-gutter.first()}
-      // In case grid.gutter is `int`, `auto`, `fraction`, ignore the value.
-      if gutter == auto or type(gutter) == fraction { gutter = 0% + 0pt }
-      // Convert `relative` length to absolute `length`.
-      gutter = container-side * gutter.ratio + gutter.length.to-absolute()
-      gutter
-    }
-
-    let process-margin(m) = {
-      if type(m) == length {
-        m.to-absolute()
-      } else if type(m) == ratio {
-        m * container-side
-      } else if type(m) == relative {
-        m.ratio * container-side + m.length.to-absolute()
-      } else {
-        panic("Incorrect margin entry type: expected length, ratio, or relative, got " + str(type(m)))
-      }
-    }
-
-    let margins = {
-      if type(margin) == array {
-        if margin.len() != 2 {
-          panic("Margin array must contain exactly two entries!")
-        }
-        (process-margin(margin.at(0)), process-margin(margin.at(1)))
-      } else {
-        let calc-margin = process-margin(margin)
-        (calc-margin, calc-margin)
-      }
-    }
-
+    let margins = process-margin(margin, container-side)
+    let gutter = process-gutter(vertical, container-side)
 
     let max-dim = container-side - gutter - margins.first() - margins.last()
     let dim-1a    // Bounding dimension of item1
@@ -117,124 +84,6 @@
       return (dim1, dim2)
     }
 
-    let measure-difference(dim1, dim2, vertical) = {
-      let out1 
-      let out2 
-      if vertical {
-        out1 = measure(block(height: dim1, item1)).width.to-absolute()
-        out2 = measure(block(height: dim2, item2)).width.to-absolute()
-      } else {
-        out1 = measure(block(width: dim1, item1)).height.to-absolute()
-        out2 = measure(block(width: dim2, item2)).height.to-absolute()
-      }
-      let diff = calc.abs(out1 - out2)
-
-      return (out1, out2, diff)
-    }
-
-    let show-ruler(
-      ruler-dim, 
-      vertical, 
-      ratio: .7, 
-      color: red.transparentize(20%)
-    ) = {
-      if ruler == false {return}
-      
-      let stack-direction
-      let line-angle
-
-      if vertical {
-        stack-direction = ttb
-        line-angle = 0deg
-      } else {
-        stack-direction = ltr
-        line-angle = 90deg
-      }
-
-      let major-line  = line(
-        length: ruler-dim * ratio, 
-        angle: line-angle, 
-        stroke: (thickness: .4em, paint: color, cap: "round")
-      )
-
-      let median-line = line(
-        length: ruler-dim * ratio * .8, 
-        angle: line-angle, 
-        stroke: (thickness: .3em, paint: color, cap: "round")
-      )
-
-      let minor-line  = line(
-        length: ruler-dim * ratio * .5, 
-        angle: line-angle, 
-        stroke: (thickness: .3em, paint: color, cap: "round")
-      )
-      
-      place(
-        horizon + center,
-        stack(
-          dir: stack-direction, 
-          spacing: 10%,
-          major-line, 
-          minor-line, minor-line, minor-line, minor-line,
-          major-line,
-          minor-line, minor-line, minor-line, minor-line,
-          major-line,
-        )
-      )
-      
-      place(
-        horizon + center,
-        line(length: 100%, angle: calc.abs(line-angle - 90deg), stroke: (thickness: 3pt, paint: color, cap: "round"))
-      )
-    }
-
-    let display-output(dim1, dim2, vertical, swap, ruler-dim) = {
-      if vertical {
-        if swap {
-          pad(
-            top: margins.first(),
-            bottom: margins.last(),
-            {
-              grid(rows: (dim2, dim1), item2, item1)
-              show-ruler(ruler-dim, vertical)
-            }
-          )
-          }
-        else    {
-          pad(
-            top: margins.first(),
-            bottom: margins.last(),
-            {
-              grid(rows: (dim1, dim2), item1, item2)
-              show-ruler(ruler-dim, vertical)
-            }
-          )
-          }
-      }
-      else {
-        if swap {
-          pad(
-            left: margins.first(),
-            right: margins.last(),
-            {
-              grid(columns: (dim2, dim1), item2, item1)
-              show-ruler(ruler-dim, vertical)
-            }
-          )
-          }
-        else    {
-          pad(
-            left: margins.first(),
-            right: margins.last(),
-            {
-              grid(columns: (dim1, dim2), item1, item2)
-              show-ruler(ruler-dim, vertical)
-            }
-          )
-          }
-      }
-    }
-
     // Loop max to prevent infinite loop
     while n < max-iterations {
       n = n + 1
@@ -259,7 +108,7 @@
       }
 
       // Measure height of content and find difference
-      (dim-1b, dim-2b, diff) = measure-difference(dim-1a, dim-2a, vertical) 
+      (dim-1b, dim-2b, diff) = measure-difference(item1, item2, dim-1a, dim-2a, vertical) 
       
       system-info()[
           // item1: (#dim-1a, #dim-1b) \ 
@@ -290,7 +139,7 @@
       // Check if within tolerance. If so, display
       if diff < tolerance or n >= max-iterations or dir-change >= 2 or override {
         success([Displaying output...])
-        display-output(dim-1a, dim-2a, vertical, swap, dim-1b)
+        display-output(item1, item2, dim-1a, dim-2a, vertical, swap, margins, ruler, dim-1b)
         break
       }
       // Use bisection method by setting new bounds
@@ -323,106 +172,5 @@
         frac = best-frac
       }
     }
-  })
-}
-
-#let oasis-align-images(
-  vertical: false,
-  swap: false, 
-  margin: 0pt,
-  image1, 
-  image2
-) = context {
-
-  
-  layout(measured-container => {
-    // Measure size of continaner
-    // let container = size.width
-    let container-side = if vertical { measured-container.height } else { measured-container.width }
-    let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
-    
-    let gutter = {
-      // In case grid.gutter is not defined, otherwise get first track sizing.
-      let gutter = if grid-gutter == () {0% + 0pt} else {grid-gutter.first()}
-      // In case grid.gutter is `int`, `auto`, `fraction`, ignore the value.
-      if gutter == auto or type(gutter) == fraction { gutter = 0% + 0pt }
-      // Convert `relative` length to absolute `length`.
-      gutter = container-side * gutter.ratio + gutter.length.to-absolute()
-      gutter
-    }
-
-    let process-margin(m) = {
-      if type(m) == length {
-        m.to-absolute()
-      } else if type(m) == ratio {
-        m * container-side
-      } else if type(m) == relative {
-        m.ratio * container-side + m.length.to-absolute()
-      } else {
-        panic("Incorrect margin entry type: expected length, ratio, or relative, got " + str(type(m)))
-      }
-    }
-
-    let margins = {
-      if type(margin) == array {
-        if margin.len() != 2 {
-          panic("Margin array must contain exactly two entries!")
-        }
-        (process-margin(margin.at(0)), process-margin(margin.at(1)))
-      } else {
-        let calc-margin = process-margin(margin)
-        (calc-margin, calc-margin)
-      }
-    }
-
-    
-    let display-output(dim1, dim2, vertical, swap) = {
-      if vertical {
-        if swap {
-          pad(
-            top: margins.first(),
-            bottom: margins.last(),
-            grid(rows: (dim2, dim1), image2, image1)
-          )
-        }
-        else {
-          pad(
-            top: margins.first(),
-            bottom: margins.last(),
-            grid(rows: (dim1, dim2), image1, image2)
-          )
-        }
-      }
-      else {
-        if swap {
-          pad(
-            left: margins.first(),
-            right: margins.last(),
-            grid(columns: (dim2, dim1), image2, image1)
-          )
-        }
-        else {
-          pad(
-            left: margins.first(),
-            right: margins.last(),
-            grid(columns: (dim1, dim2), image1, image2)
-          )
-        }
-      }
-    }
-
-      // Find dimentional ratio between images
-    let block1 = measure(image1)
-    let block2 = measure(image2)
-    let ratio = if vertical {(block1.height/block1.width)*block2.width/block2.height}
-                else {(block1.width/block1.height)*block2.height/block2.width}
-    
-    let max-dim = container-side - gutter - margins.first() - margins.last()
-    // Set widths of images
-    let calcWidth1 = (max-dim)/(1/ratio + 1)
-    let calcWidth2 = (max-dim)/(ratio + 1)
-
-    // Display images in grid
-    display-output(calcWidth1, calcWidth2, vertical, swap)
   })
 }

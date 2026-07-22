@@ -1,0 +1,165 @@
+#let split-layout(max-distance, fraction) = {
+      let dim1 = fraction * max-distance
+      let dim2 = (1 - fraction) * max-distance
+      return (dim1, dim2)
+    }
+
+#let measure-difference(item1, item2, dim1, dim2, vertical) = {
+  let (out1, out2) =  if vertical {
+    (
+      measure(block(height: dim1, item1)).width.to-absolute(),
+      measure(block(height: dim2, item2)).width.to-absolute()
+    )
+  } else {
+    (
+      measure(block(width: dim1, item1)).height.to-absolute(),
+      measure(block(width: dim2, item2)).height.to-absolute()
+    )
+  }
+
+  let diff = calc.abs(out1 - out2)
+
+  (out1, out2, diff)
+}
+
+#let process-margin(input, container-dim) = {
+
+  let check-margin-type(m) = {
+    if type(m) == length {
+      m.to-absolute()
+    } else if type(m) == ratio {
+      m * container-dim
+    } else if type(m) == relative {
+      m.ratio * container-dim + m.length.to-absolute()
+    } else {
+      panic("Incorrect margin entry type: expected length, ratio, or relative, got " + str(type(m)))
+    }
+  }
+
+  if type(input) == array {
+    if input.len() != 2 {
+      panic("Margin array must contain exactly two entries!")
+    }
+    (check-margin-type(input.at(0)), check-margin-type(input.at(1)))
+  } else {
+    let calc-margin = check-margin-type(input)
+    (calc-margin, calc-margin)
+  }
+}
+
+#let process-gutter(vertical, container-dim) = {
+    let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
+    
+    // In case grid.gutter is not defined, otherwise get first track sizing.
+    let gutter = if grid-gutter == () {0% + 0pt} else {grid-gutter.first()}
+    // In case grid.gutter is `int`, `auto`, `fraction`, ignore the value.
+    if gutter == auto or type(gutter) == fraction { gutter = 0% + 0pt }
+    // Convert `relative` length to absolute `length`.
+    gutter = container-dim * gutter.ratio + gutter.length.to-absolute()
+    gutter 
+}
+
+
+#let show-ruler(
+  ruler-state,
+  ruler-dim, 
+  vertical, 
+  ratio: .7, 
+  color: red.transparentize(20%)
+) = {
+  if ruler-state == false {return}
+  
+  let stack-direction
+  let line-angle
+
+  if vertical {
+    stack-direction = ttb
+    line-angle = 0deg
+  } else {
+    stack-direction = ltr
+    line-angle = 90deg
+  }
+
+  let major-line  = line(
+    length: ruler-dim * ratio, 
+    angle: line-angle, 
+    stroke: (thickness: .4em, paint: color, cap: "round")
+  )
+
+  let median-line = line(
+    length: ruler-dim * ratio * .8, 
+    angle: line-angle, 
+    stroke: (thickness: .3em, paint: color, cap: "round")
+  )
+
+  let minor-line  = line(
+    length: ruler-dim * ratio * .5, 
+    angle: line-angle, 
+    stroke: (thickness: .3em, paint: color, cap: "round")
+  )
+  
+  place(
+    horizon + center,
+    stack(
+      dir: stack-direction, 
+      spacing: 10%,
+      major-line, 
+      minor-line, minor-line, minor-line, minor-line,
+      major-line,
+      minor-line, minor-line, minor-line, minor-line,
+      major-line,
+    )
+  )
+  
+  place(
+    horizon + center,
+    line(length: 100%, angle: calc.abs(line-angle - 90deg), stroke: (thickness: 3pt, paint: color, cap: "round"))
+  )
+}
+
+#let display-output(item1, item2, dim1, dim2, vertical, swap, margins, ruler-state, ruler-dim) = {
+  if vertical {
+    if swap {
+      pad(
+        top: margins.first(),
+        bottom: margins.last(),
+        {
+          grid(rows: (dim2, dim1), item2, item1)
+          show-ruler(ruler-state, ruler-dim, vertical)
+        }
+      )
+      }
+    else    {
+      pad(
+        top: margins.first(),
+        bottom: margins.last(),
+        {
+          grid(rows: (dim1, dim2), item1, item2)
+          show-ruler(ruler-state, ruler-dim, vertical)
+        }
+      )
+      }
+  }
+  else {
+    if swap {
+      pad(
+        left: margins.first(),
+        right: margins.last(),
+        {
+          grid(columns: (dim2, dim1), item2, item1)
+          show-ruler(ruler-state, ruler-dim, vertical)
+        }
+      )
+      }
+    else    {
+      pad(
+        left: margins.first(),
+        right: margins.last(),
+        {
+          grid(columns: (dim1, dim2), item1, item2)
+          show-ruler(ruler-state, ruler-dim, vertical)
+        }
+      )
+      }
+  }
+}

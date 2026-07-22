@@ -15,6 +15,12 @@
 
 
 #oasis-align(
+  // margin: 9pt,
+  // margin: 9pt,
+  margin: (15pt, 0pt),
+  // margin: (0in, 5pt),
+  // margin: (1in, 5pt),
+  // margin: (0in, 5pt),
   // int-dir: 1, 
   // force1: true,
   // range: (0.5, 1),
@@ -32,23 +38,23 @@
   words
 )
 
-#v(3em)
-// #grid(columns: (1fr, 1.19fr),  
-//   cat, 
-//   words
-// )
+// #v(3em)
+// // #grid(columns: (1fr, 1.19fr),  
+// //   cat, 
+// //   words
+// // )
 
-#oasis-align(
-  // debug: true,
-  int-dir: -1,
-  force-frac: .5,
-  // vertical: true,
-  // swap: true,
-  // min-frac: 0.2,
-  ruler: true,
-  image("blanket.jpg"), 
-  image("box.jpg"),
-)
+// #oasis-align(
+//   // debug: true,
+//   int-dir: -1,
+//   force-frac: .5,
+//   // vertical: true,
+//   // swap: true,
+//   // min-frac: 0.2,
+//   ruler: true,
+//   image("blanket.jpg"), 
+//   image("box.jpg"),
+// )
 
 #oasis-align-images(
   // debug: true,
@@ -59,6 +65,10 @@
   // ruler: true,
   image("blanket.jpg"), 
   image("box.jpg"),
+  // path("blanket.jpg"), 
+  // path("box.jpg"),
+  // "blanket.jpg", 
+  // "box.jpg",
 )
 
 #oasis-align(
@@ -97,6 +107,7 @@
 #oasis-align(
   vertical: true,
   swap: true,
+  margin: (0pt, 5pt),
   image("blanket.jpg"),
   image("box.jpg"),
 )

@@ -1,6 +1,7 @@
 #let oasis-align(
-  swap: false,
   vertical: false,
+  swap: false,
+  margin: 0in,
   range: (0, 1),
   int-frac: none, 
   int-dir: 1, 
@@ -18,8 +19,9 @@
   let check-fraction(parameter) = (type(parameter) == float or parameter == 1  or parameter == 0) and parameter >= 0 and parameter <= 1
 
   // Check that inputs are valid
-  assert(type(swap) == bool, message: "Swap parameter must be true or false!")
   assert(type(vertical) == bool, message: "Vertical parameter condition must be true or false!")
+  assert(type(swap) == bool, message: "Swap parameter must be true or false!")
+  // assert(ty)
   assert(type(range) == array and range.len() == 2 and range.all(it => check-fraction(it)), message: "Range must be an array of two fractions!")
   assert(int-dir == -1 or int-dir == 1, message: "Initial direction parameter must be 1 or -1!")
   assert(int-frac == none or check-fraction(int-frac), message:"Initial fraction must be between 0 and 1!")
@@ -64,8 +66,16 @@
       gutter = container-side * gutter.ratio + gutter.length.to-absolute()
       gutter
     }
+    let margins = {
+      if type(margin) == length {
+        (margin, margin)
+      } else if type(margin) == array {
+        margin
+      }
+    }
 
-    let max-dim = container-side - gutter
+
+    let max-dim = container-side - gutter - margins.first() - margins.last()
     let dim-1a    // Bounding dimension of item1
     let dim-2a    // Bounding dimension of item2
     let dim-1b   // Measured dimension of item1 using dim-1a
@@ -107,12 +117,36 @@
 
     let display-output(dim1, dim2, vertical, swap) = {
       if vertical {
-        if swap {grid(rows: (dim2, dim1), item2, item1)}
-        else    {grid(rows: (dim1, dim2), item1, item2)}
+        if swap {
+          pad(
+            top: margins.first(),
+            bottom: margins.last(),
+            grid(rows: (dim2, dim1), item2, item1)
+          )
+          }
+        else    {
+          pad(
+            top: margins.first(),
+            bottom: margins.last(),
+            grid(rows: (dim1, dim2), item1, item2)
+          )
+          }
       }
       else {
-        if swap {grid(columns: (dim2, dim1), item2, item1)}
-        else    {grid(columns: (dim1, dim2), item1, item2)}
+        if swap {
+          pad(
+            left: margins.first(),
+            right: margins.last(),
+            grid(columns: (dim2, dim1), item2, item1)
+          )
+          }
+        else    {
+          pad(
+            left: margins.first(),
+            right: margins.last(),
+            grid(columns: (dim1, dim2), item1, item2)
+          )
+          }
       }
     }
 
@@ -149,7 +183,7 @@
       )
       
       place(
-        horizon + center, 
+        horizon + center,
         stack(
           dir: stack-direction, 
           spacing: 10%,
@@ -265,6 +299,20 @@
   image1, 
   image2
 ) = context {
+
+  // let to-image(input) = {
+  //   if type(input) == str {
+  //     return image(path(input))
+  //   }
+  //   else if type(input) == path {
+  //     return image(input)
+  //   } else {
+  //     panic("Images should be passed as strings or paths!")
+  //   }
+  // }
+
+  // let image1 = to-image(image1)
+  // let image2 = to-image(image2)
 
   // Find dimentional ratio between images
   let block1 = measure(image1)

@@ -54,8 +54,7 @@
   layout(measured-container => {
 
     // Relevant container side, depending on `vertical`.
-    let side = if vertical {"height"} else {"width"}
-    let container-side = measured-container.at(side)
+    let container-side = if vertical { measured-container.height } else { measured-container.width }
     let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
 
     let gutter = {
@@ -339,8 +338,7 @@
   layout(measured-container => {
     // Measure size of continaner
     // let container = size.width
-    let side = if vertical {"height"} else {"width"}
-    let container-side = measured-container.at(side)
+    let container-side = if vertical { measured-container.height } else { measured-container.width }
     let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
     
     let gutter = {

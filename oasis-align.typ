@@ -115,42 +115,12 @@
       return (out1, out2, diff)
     }
 
-    let display-output(dim1, dim2, vertical, swap) = {
-      if vertical {
-        if swap {
-          pad(
-            top: margins.first(),
-            bottom: margins.last(),
-            grid(rows: (dim2, dim1), item2, item1)
-          )
-          }
-        else    {
-          pad(
-            top: margins.first(),
-            bottom: margins.last(),
-            grid(rows: (dim1, dim2), item1, item2)
-          )
-          }
-      }
-      else {
-        if swap {
-          pad(
-            left: margins.first(),
-            right: margins.last(),
-            grid(columns: (dim2, dim1), item2, item1)
-          )
-          }
-        else    {
-          pad(
-            left: margins.first(),
-            right: margins.last(),
-            grid(columns: (dim1, dim2), item1, item2)
-          )
-          }
-      }
-    }
-
-    let show-ruler(ruler-dim, ratio: .7, color: red.transparentize(20%), vertical) = {
+    let show-ruler(
+      ruler-dim, 
+      vertical, 
+      ratio: .7, 
+      color: red.transparentize(20%)
+    ) = {
       if ruler == false {return}
       
       let stack-direction
@@ -199,6 +169,53 @@
         horizon + center,
         line(length: 100%, angle: calc.abs(line-angle - 90deg), stroke: (thickness: 3pt, paint: color, cap: "round"))
       )
+    }
+
+    let display-output(dim1, dim2, vertical, swap, ruler-dim) = {
+      if vertical {
+        if swap {
+          pad(
+            top: margins.first(),
+            bottom: margins.last(),
+            {
+              grid(rows: (dim2, dim1), item2, item1)
+              show-ruler(ruler-dim, vertical)
+            }
+          )
+          }
+        else    {
+          pad(
+            top: margins.first(),
+            bottom: margins.last(),
+            {
+              grid(rows: (dim1, dim2), item1, item2)
+              show-ruler(ruler-dim, vertical)
+            }
+          )
+          }
+      }
+      else {
+        if swap {
+          pad(
+            left: margins.first(),
+            right: margins.last(),
+            {
+              grid(columns: (dim2, dim1), item2, item1)
+              show-ruler(ruler-dim, vertical)
+            }
+          )
+          }
+        else    {
+          pad(
+            left: margins.first(),
+            right: margins.last(),
+            {
+              grid(columns: (dim1, dim2), item1, item2)
+              show-ruler(ruler-dim, vertical)
+            }
+          )
+          }
+      }
     }
 
     // Loop max to prevent infinite loop
@@ -256,8 +273,7 @@
       // Check if within tolerance. If so, display
       if diff < tolerance or n >= max-iterations or dir-change >= 2 or override {
         success([Displaying output...])
-        display-output(dim-1a, dim-2a, vertical, swap)
-        show-ruler(dim-1b, vertical)
+        display-output(dim-1a, dim-2a, vertical, swap, dim-1b)
         break
       }
       // Use bisection method by setting new bounds

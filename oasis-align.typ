@@ -1,7 +1,7 @@
 #let oasis-align(
   vertical: false,
   swap: false,
-  margin: 0in,
+  margin: 0pt,
   range: (0, 1),
   int-frac: none, 
   int-dir: 1, 
@@ -330,24 +330,34 @@
 #let oasis-align-images(
   vertical: false,
   swap: false, 
-  margin: 0in,
+  margin: 0pt,
   image1, 
   image2
 ) = context {
 
-  // let to-image(input) = {
-  //   if type(input) == str {
-  //     return image(path(input))
-  //   }
-  //   else if type(input) == path {
-  //     return image(input)
-  //   } else {
-  //     panic("Images should be passed as strings or paths!")
-  //   }
-  // }
+  let process-margin(m) = {
+    if type(m) == length {
+      m.to-absolute()
+    } else if type(m) == ratio {
+      m * container-side
+    } else if type(m) == relative {
+      m.ratio * container-side + m.length.to-absolute()
+    } else {
+      panic("Incorrect margin entry type: expected length, ratio, or relative, got " + str(type(m)))
+    }
+  }
 
-  // let image1 = to-image(image1)
-  // let image2 = to-image(image2)
+  let margins = {
+    if type(margin) == array {
+      if margin.len() != 2 {
+        panic("Margin array must contain exactly two entries!")
+      }
+      (process-margin(margin.at(0)), process-margin(margin.at(1)))
+    } else {
+      let calc-margin = process-margin(margin)
+      (calc-margin, calc-margin)
+    }
+  }
 
   // Find dimentional ratio between images
   let block1 = measure(image1)
@@ -357,15 +367,39 @@
 
   
   let display-output(dim1, dim2, vertical, swap) = {
-    if vertical {
-      if swap {grid(rows: (dim2, dim1), image2, image1)}
-      else    {grid(rows: (dim1, dim2), image1, image2)}
-    }
-    else {
-      if swap {grid(columns: (dim2, dim1), image2, image1)}
-      else    {grid(columns: (dim1, dim2), image1, image2)}
-    }
-  }
+        if vertical {
+          if swap {
+            pad(
+              top: margins.first(),
+              bottom: margins.last(),
+              grid(rows: (dim2, dim1), image2, image1)
+            )
+            }
+          else    {
+            pad(
+              top: margins.first(),
+              bottom: margins.last(),
+              grid(rows: (dim1, dim2), image1, image2)
+            )
+            }
+        }
+        else {
+          if swap {
+            pad(
+              left: margins.first(),
+              right: margins.last(),
+              grid(columns: (dim2, dim1), image2, image1)
+            )
+            }
+          else    {
+            pad(
+              left: margins.first(),
+              right: margins.last(),
+              grid(columns: (dim1, dim2), image1, image2)
+            )
+            }
+        }
+      }
 
   layout(measured-container => {
     // Measure size of continaner
@@ -373,6 +407,7 @@
     let side = if vertical {"height"} else {"width"}
     let container-side = measured-container.at(side)
     let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
+    
     let gutter = {
       // In case grid.gutter is not defined, otherwise get first track sizing.
       let gutter = if grid-gutter == () {0% + 0pt} else {grid-gutter.first()}
@@ -383,7 +418,7 @@
       gutter
     }
     
-    let max-dim = container-side - gutter
+    let max-dim = container-side - gutter - margins.first() - margins.last()
     // Set widths of images
     let calcWidth1 = (max-dim)/(1/ratio + 1)
     let calcWidth2 = (max-dim)/(ratio + 1)

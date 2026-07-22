@@ -68,20 +68,27 @@
       gutter
     }
 
-    let margins = {
-      if type(margin) == length {
-        (margin.to-absolute(), margin.to-absolute())
-      } else if type(margin) == ratio {
-        let calc-margin = margin * container-side
-        (calc-margin, calc-margin)
-      } else if type(margin) == relative {
-        let calc-margin = margin.ratio * container-side + margin.length.to-absolute()
-        (calc-margin, calc-margin)
-      } else if type(margin) == array {
-        if margin.flatten().len() != 2 {panic("Margin array should only have two entries!")}
-        margin
+    let process-margin(m) = {
+      if type(m) == length {
+        m.to-absolute()
+      } else if type(m) == ratio {
+        m * container-side
+      } else if type(m) == relative {
+        m.ratio * container-side + m.length.to-absolute()
       } else {
-        panic("Incorrect margin parameter type. Please use a length, ratio, or relative!")
+        panic("Incorrect margin entry type: expected length, ratio, or relative, got " + str(type(m)))
+      }
+    }
+
+    let margins = {
+      if type(margin) == array {
+        if margin.len() != 2 {
+          panic("Margin array must contain exactly two entries!")
+        }
+        (process-margin(margin.at(0)), process-margin(margin.at(1)))
+      } else {
+        let calc-margin = process-margin(margin)
+        (calc-margin, calc-margin)
       }
     }
 

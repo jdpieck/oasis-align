@@ -13,15 +13,25 @@
 
 // #place(line(length: 2in, angle: 90deg, stroke: 5pt))
 
+// #let thing = 1pt + 0%
+// #type(thing)
+// #thing.length
+// #thing.ratio
 
+// #repr(cat)
+// #cat.source
+// #type(cat)
+
+// #image("blanket.jpg", width: 6% + 1in)
 #oasis-align(
+  // margin: 6% ,
+  // margin: 20pt + 5%,
   // margin: 9pt,
-  // margin: 9pt,
-  margin: (15pt, 100pt),
+  margin: (15pt, 50pt),
   // margin: (0in, 5pt),
   // margin: (1in, 5pt),
   // margin: (0in, 5pt),
-  // int-dir: 1, 
+  // int-dir: -1, 
   // force1: true,
   // range: (0.5, 1),
   // range: (0, .75),

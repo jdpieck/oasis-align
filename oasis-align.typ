@@ -57,6 +57,7 @@
     let side = if vertical {"height"} else {"width"}
     let container-side = measured-container.at(side)
     let grid-gutter = if vertical {grid.row-gutter} else {grid.column-gutter}
+
     let gutter = {
       // In case grid.gutter is not defined, otherwise get first track sizing.
       let gutter = if grid-gutter == () {0% + 0pt} else {grid-gutter.first()}
@@ -66,11 +67,21 @@
       gutter = container-side * gutter.ratio + gutter.length.to-absolute()
       gutter
     }
+
     let margins = {
       if type(margin) == length {
-        (margin, margin)
+        (margin.to-absolute(), margin.to-absolute())
+      } else if type(margin) == ratio {
+        let calc-margin = margin * container-side
+        (calc-margin, calc-margin)
+      } else if type(margin) == relative {
+        let calc-margin = margin.ratio * container-side + margin.length.to-absolute()
+        (calc-margin, calc-margin)
       } else if type(margin) == array {
+        if margin.flatten().len() != 2 {panic("Margin array should only have two entries!")}
         margin
+      } else {
+        panic("Incorrect margin parameter type. Please use a length, ratio, or relative!")
       }
     }
 
@@ -312,6 +323,7 @@
 #let oasis-align-images(
   vertical: false,
   swap: false, 
+  margin: 0in,
   image1, 
   image2
 ) = context {

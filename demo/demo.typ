@@ -20,13 +20,15 @@
 
 // #cat.func()
 // #cat-fig.func()
-#cat-fig.fields()
-#repr(cat-fig)
+// #cat-fig.fields()
+// #repr(cat-fig)
 
+#cat-fig.children.at(0).func()
+#cat-fig.func()
 #type(cat-fig)
 
 
-#cat-fig.has("label")
+// #cat-fig.has("label")
 
 // #cat-fig.body.func()
 
@@ -43,6 +45,22 @@
 // #type(cat)
 
 // #image("blanket.jpg", width: 6% + 1in)
+
+
+#oasis-align-figures(
+  // margin: 50pt, 
+  [#figure(
+    cat,
+    caption: [caption1 is really long and ],
+  ) <sdfs>],
+  figure(
+    image("box.jpg"),
+    caption: [],
+  )
+)
+
+
+
 #oasis-align(
   // margin: 6% ,
   // margin: 20pt + 5%,

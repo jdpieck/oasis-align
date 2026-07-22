@@ -1,6 +1,5 @@
 #import "utils.typ": *
 
-
 #let oasis-align-images(
   vertical: false,
   swap: false, 
@@ -11,6 +10,7 @@
 
   assert(type(vertical) == bool, message: "Vertical parameter condition must be true or false!")
   assert(type(swap) == bool, message: "Swap parameter must be true or false!")
+  
 
   
   layout(measured-container => {

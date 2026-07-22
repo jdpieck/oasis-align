@@ -1,6 +1,6 @@
 #import "utils.typ": *
-// #import "oasis-align-images.typ": oasis-align-images
-// #import "oasis-align-figures.typ": oasis-align-figures
+#import "oasis-align-images.typ": oasis-align-images
+#import "oasis-align-figures.typ": oasis-align-figures
 
 #let oasis-align(
   vertical: false,
@@ -51,6 +51,25 @@
   assert(type(ruler) == bool, message: "Ruler can be turned on or off only using boolean!")
   assert(type(debug) == bool, message: "Debug feed can be turned on or off only using boolean!")
   
+  let check-if-image(input) = {
+    if type(input) == content {
+        success("Content identified as image! Using `oasis-align-images` instead.")
+      if input.func() == image {
+        success("Content identified as image! Using `oasis-align-images` instead.")
+        oasis-align-images(vertical: vertical, swap: swap, margin: margin, item1, item2)
+        // return true
+      }
+    } else {return false}
+  }
+
+  [#check-if-image(item1)]
+
+  // if check-if-image(item1) {
+  //   oasis-align-images(vertical: vertical, swap: swap, margin: margin, item1, item2)
+  //   return
+  // }
+
+
 
   // use layout to measure measured-container
   layout(measured-container => {

@@ -91,33 +91,40 @@
 // //   words
 // // )
 
-// #oasis-align(
-//   // debug: true,
-//   int-dir: -1,
-//   force-frac: .5,
-//   // vertical: true,
-//   // swap: true,
-//   // min-frac: 0.2,
-//   ruler: true,
-//   image("blanket.jpg"), 
-//   image("box.jpg"),
-// )
-// #set grid(gutter: 2em)
-#oasis-align-images(
-  // debug: true,
-  // int-dir: -1,
+// #type("sdfsdf")
+
+// #{cat.func() == image}
+// // #{cat.has(func)}
+// #{cat.at("func", default: none) == image}
+// #{cat.has(func)}
+
+#oasis-align(
+  debug: true,
+  int-dir: -1,
+  // force-frac: .5,
   // vertical: true,
   // swap: true,
   // min-frac: 0.2,
   // ruler: true,
-  // margin: (30pt, 30%),
   image("blanket.jpg"), 
   image("box.jpg"),
-  // path("blanket.jpg"), 
-  // path("box.jpg"),
-  // "blanket.jpg", 
-  // "box.jpg",
 )
+// #set grid(gutter: 2em)
+// #oasis-align-images(
+//   // debug: true,
+//   // int-dir: -1,
+//   // vertical: true,
+//   // swap: true,
+//   // min-frac: 0.2,
+//   // ruler: true,
+//   // margin: (30pt, 30%),
+//   image("blanket.jpg"), 
+//   image("box.jpg"),
+//   // path("blanket.jpg"), 
+//   // path("box.jpg"),
+//   // "blanket.jpg", 
+//   // "box.jpg",
+// )
 
 #oasis-align(
   // debug: true,

@@ -27,9 +27,9 @@
   (out1, out2, diff)
 }
 
-#let process-margin(input, container-dim) = {
+#let process-padding(input, container-dim) = {
 
-  let check-margin-type(m) = {
+  let check-padding-type(m) = {
     if type(m) == length {
       m.to-absolute()
     } else if type(m) == ratio {
@@ -37,18 +37,18 @@
     } else if type(m) == relative {
       m.ratio * container-dim + m.length.to-absolute()
     } else {
-      panic("Incorrect margin entry type: expected length, ratio, or relative, got " + str(type(m)))
+      panic("Incorrect padding entry type: expected length, ratio, or relative, got " + str(type(m)))
     }
   }
 
   if type(input) == array {
     if input.len() != 2 {
-      panic("Margin array must contain exactly two entries!")
+      panic("Padding array must contain exactly two entries!")
     }
-    (check-margin-type(input.at(0)), check-margin-type(input.at(1)))
+    (check-padding-type(input.at(0)), check-padding-type(input.at(1)))
   } else {
-    let calc-margin = check-margin-type(input)
-    (calc-margin, calc-margin)
+    let calc-padding = check-padding-type(input)
+    (calc-padding, calc-padding)
   }
 }
 
@@ -129,12 +129,12 @@
   )
 }
 
-#let display-output(item1, item2, dim1, dim2, vertical, swap, margins, ruler-state, ruler-dim) = {
+#let display-output(item1, item2, dim1, dim2, vertical, swap, paddings, ruler-state, ruler-dim) = {
   if vertical {
     if swap {
       pad(
-        top: margins.first(),
-        bottom: margins.last(),
+        top: paddings.first(),
+        bottom: paddings.last(),
         {
           grid(rows: (dim2, dim1), item2, item1)
           show-ruler(ruler-state, ruler-dim, vertical)
@@ -143,8 +143,8 @@
       }
     else    {
       pad(
-        top: margins.first(),
-        bottom: margins.last(),
+        top: paddings.first(),
+        bottom: paddings.last(),
         {
           grid(rows: (dim1, dim2), item1, item2)
           show-ruler(ruler-state, ruler-dim, vertical)
@@ -155,8 +155,8 @@
   else {
     if swap {
       pad(
-        left: margins.first(),
-        right: margins.last(),
+        left: paddings.first(),
+        right: paddings.last(),
         {
           grid(columns: (dim2, dim1), item2, item1)
           show-ruler(ruler-state, ruler-dim, vertical)
@@ -165,8 +165,8 @@
       }
     else    {
       pad(
-        left: margins.first(),
-        right: margins.last(),
+        left: paddings.first(),
+        right: paddings.last(),
         {
           grid(columns: (dim1, dim2), item1, item2)
           show-ruler(ruler-state, ruler-dim, vertical)

@@ -5,8 +5,9 @@
 #let oasis-align(
   vertical: false,
   swap: false,
-  margin: 0pt,
+  padding: 0pt,
   override: false,
+  ruler: false,
   range: (0, 1),
   int-frac: none, 
   int-dir: 1, 
@@ -15,7 +16,6 @@
   frac-limit: 1e-5,  
   tolerance: 0.01pt,
   max-iterations: 30, 
-  ruler: false,
   debug: false,
   item1, 
   item2, 
@@ -55,13 +55,13 @@
 
   if check-if-image(item1) and check-if-image(item2) and override == false {
     success("Content identified as image! Using `oasis-align-images` instead.")
-    oasis-align-images(vertical: vertical, swap: swap, margin: margin, item1, item2)
+    oasis-align-images(vertical: vertical, swap: swap, padding: padding, item1, item2)
     return
   }
 
   if check-if-figure(item1) and check-if-figure(item2) and override == false {
     success("Content identified as figure! Using `oasis-align-figures` instead.")
-    oasis-align-figures(vertical: vertical, swap: swap, margin: margin, item1, item2)
+    oasis-align-figures(vertical: vertical, swap: swap, padding: padding, item1, item2)
     return
   }
 
@@ -70,10 +70,10 @@
 
     // Relevant container side, depending on `vertical`.
     let container-side = if vertical { measured-container.height } else { measured-container.width }
-    let margins = process-margin(margin, container-side)
+    let paddings = process-padding(padding, container-side)
     let gutter = process-gutter(vertical, container-side)
 
-    let max-dim = container-side - gutter - margins.first() - margins.last()
+    let max-dim = container-side - gutter - paddings.first() - paddings.last()
     let dim-1a    // Bounding dimension of item1
     let dim-2a    // Bounding dimension of item2
     let dim-1b   // Measured dimension of item1 using dim-1a
@@ -148,7 +148,7 @@
       // Check if within tolerance. If so, display
       if diff < tolerance or n >= max-iterations or dir-change >= 2 or override {
         success([Displaying output...])
-        display-output(item1, item2, dim-1a, dim-2a, vertical, swap, margins, ruler, dim-1b)
+        display-output(item1, item2, dim-1a, dim-2a, vertical, swap, paddings, ruler, dim-1b)
         break
       }
       // Use bisection method by setting new bounds

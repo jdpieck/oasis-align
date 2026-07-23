@@ -3,7 +3,7 @@
 #let oasis-align-figures(
   vertical: false,
   swap: false, 
-  margin: 0pt,
+  padding: 0pt,
   figure1, 
   figure2
 ) = context {
@@ -30,16 +30,16 @@
   layout(measured-container => {
     // Measure size of container
     let container-side = if vertical { measured-container.height } else { measured-container.width }
-    let margins = process-margin(margin, container-side)
+    let paddings = process-padding(padding, container-side)
     let gutter = process-gutter(vertical, container-side)
     let ratio = find-image-ratio(figure1, figure2, vertical)
     
-    let max-dim = container-side - gutter - margins.first() - margins.last()
+    let max-dim = container-side - gutter - paddings.first() - paddings.last()
     // Set widths of images
     let calcWidth1 = (max-dim)/(1/ratio + 1)
     let calcWidth2 = (max-dim)/(ratio + 1)
 
     // Display images in grid
-    display-output(figure1, figure2, calcWidth1, calcWidth2, vertical, swap, margins, false, 0pt)
+    display-output(figure1, figure2, calcWidth1, calcWidth2, vertical, swap, paddings, false, 0pt)
   })
 }

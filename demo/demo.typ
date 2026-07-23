@@ -16,7 +16,7 @@
 #oasis-align(
   // debug: true,
   // override: true,
-  // margin: 50pt, 
+  // padding: 50pt, 
   [#figure(
     cat,
     caption: [caption1 is really long and ],
@@ -28,13 +28,13 @@
 )
 
 #oasis-align(
-  // margin: 6% ,
-  // margin: 20pt + 5%,
-  // margin: 9pt,
-  margin: (15pt + 3em, 5pt + 7%),
-  // margin: (0in, 5pt),
-  // margin: (1in, 5pt),
-  // margin: (0in, 5pt),
+  // padding: 6% ,
+  // padding: 20pt + 5%,
+  // padding: 9pt,
+  padding: (15pt + 3em, 5pt + 7%),
+  // padding: (0in, 5pt),
+  // padding: (1in, 5pt),
+  // padding: (0in, 5pt),
   // int-dir: -1, 
   // force1: true,
   range: (0.5, 1),
@@ -71,7 +71,7 @@
 //   // swap: true,
 //   // min-frac: 0.2,
 //   // ruler: true,
-//   // margin: (30pt, 30%),
+//   // padding: (30pt, 30%),
 //   image("blanket.jpg"), 
 //   image("box.jpg"),
 //   // path("blanket.jpg"), 
@@ -116,7 +116,7 @@
 #oasis-align(
   vertical: true,
   swap: true,
-  margin: (0pt, 5pt),
+  padding: (0pt, 5pt),
   image("blanket.jpg"),
   image("box.jpg"),
 )

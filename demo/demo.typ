@@ -1,9 +1,4 @@
-// #import "../oasis-align.typ": *
-// #import "../oasis-align-images.typ": *
 #import "../lib.typ": *
-// #import "@preview/oasis-align:0.2.0": *
-// #import "@local/oasis-align:0.2.0": *
-// 
 
 #set page(width: 6in, height: auto, margin: 1in)
 #set par(justify: true)
@@ -11,43 +6,16 @@
 #set grid(column-gutter: 4%)
 
 #let words = [This is me writing about my cat. I love my cat. He is the best of cats. I give him head scratches until he gets mad at me. He then he starts swatting at my hand. This goes on until my hand gets scratched.]
-
 #let cat = image("blanket.jpg")
 #let cat-fig = [#figure(
   cat, 
   caption: [This is a caption]
 ) <thihng>]
 
-// #cat.func()
-// #cat-fig.func()
-// #cat-fig.fields()
-// #repr(cat-fig)
 
-#cat-fig.children.at(0).func()
-#cat-fig.func()
-#type(cat-fig)
-
-
-// #cat-fig.has("label")
-
-// #cat-fig.body.func()
-
-
-// #place(line(length: 2in, angle: 90deg, stroke: 5pt))
-
-// #let thing = 1pt + 0%
-// #type(thing)
-// #thing.length
-// #thing.ratio
-
-// #repr(cat)
-// #cat.source
-// #type(cat)
-
-// #image("blanket.jpg", width: 6% + 1in)
-
-
-#oasis-align-figures(
+#oasis-align(
+  // debug: true,
+  // override: true,
   // margin: 50pt, 
   [#figure(
     cat,
@@ -58,8 +26,6 @@
     caption: [],
   )
 )
-
-
 
 #oasis-align(
   // margin: 6% ,
@@ -85,19 +51,6 @@
   words
 )
 
-// #v(3em)
-// // #grid(columns: (1fr, 1.19fr),  
-// //   cat, 
-// //   words
-// // )
-
-// #type("sdfsdf")
-
-// #{cat.func() == image}
-// // #{cat.has(func)}
-// #{cat.at("func", default: none) == image}
-// #{cat.has(func)}
-
 #oasis-align(
   debug: true,
   int-dir: -1,
@@ -109,6 +62,7 @@
   image("blanket.jpg"), 
   image("box.jpg"),
 )
+
 // #set grid(gutter: 2em)
 // #oasis-align-images(
 //   // debug: true,

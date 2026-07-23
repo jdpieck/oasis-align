@@ -6,6 +6,7 @@
   vertical: false,
   swap: false,
   margin: 0pt,
+  override: false,
   range: (0, 1),
   int-frac: none, 
   int-dir: 1, 
@@ -51,11 +52,16 @@
   assert(type(ruler) == bool, message: "Ruler can be turned on or off only using boolean!")
   assert(type(debug) == bool, message: "Debug feed can be turned on or off only using boolean!")
 
-  let check-if-image(input) = type(input) == content and input.func() == image
 
-  if check-if-image(item1) and check-if-image(item2) {
+  if check-if-image(item1) and check-if-image(item2) and override == false {
     success("Content identified as image! Using `oasis-align-images` instead.")
     oasis-align-images(vertical: vertical, swap: swap, margin: margin, item1, item2)
+    return
+  }
+
+  if check-if-figure(item1) and check-if-figure(item2) and override == false {
+    success("Content identified as figure! Using `oasis-align-figures` instead.")
+    oasis-align-figures(vertical: vertical, swap: swap, margin: margin, item1, item2)
     return
   }
 

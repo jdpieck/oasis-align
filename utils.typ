@@ -1,12 +1,7 @@
-// #let check-content-type(input) = {
-//   // assert(type(input) == content, message: "The input arguments must be a type of content!")
+#let check-if-image(input) = type(input) == content and input.func() == image
 
-//   if input.func() == image {"image"}
-//   else if input.func() == figure {
-//     if input.body.func() == image {"image-figure"}
-//   } else {"other"}
-}
 
+#let check-if-figure(input) = type(input) == content and ((input.func() == figure and input.body.func() == image) or (repr(input.func()) == "sequence" and input.children.at(0).func() == figure and input.children.at(0).body.func() == image))
 
 #let split-layout(max-distance, fraction) = {
       let dim1 = fraction * max-distance

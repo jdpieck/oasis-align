@@ -10,7 +10,7 @@
 
   assert(type(vertical) == bool, message: "Vertical parameter condition must be true or false!")
   assert(type(swap) == bool, message: "Swap parameter must be true or false!")
-  
+  assert((image1, image2).any(input => type(input) == content and input.func() == image), message: "Input arguments must be images!")
 
   
   layout(measured-container => {

@@ -50,35 +50,17 @@
   assert(type(max-iterations) == int, message: "The maximum number of iterations must be an integer! Lowering the number may find a solution quicker, but it may no be within tolerance.")
   assert(type(ruler) == bool, message: "Ruler can be turned on or off only using boolean!")
   assert(type(debug) == bool, message: "Debug feed can be turned on or off only using boolean!")
-  
-  let check-if-image(input) = {
-    if type(input) == content {
-        success("Content identified as image! Using `oasis-align-images` instead.")
-      if input.func() == image {
-        success("Content identified as image! Using `oasis-align-images` instead.")
-        oasis-align-images(vertical: vertical, swap: swap, margin: margin, item1, item2)
-        // return true
-      }
-    } else {return false}
+
+  let check-if-image(input) = type(input) == content and input.func() == image
+
+  if check-if-image(item1) and check-if-image(item2) {
+    success("Content identified as image! Using `oasis-align-images` instead.")
+    oasis-align-images(vertical: vertical, swap: swap, margin: margin, item1, item2)
+    return
   }
-
-  [#check-if-image(item1)]
-
-  // if check-if-image(item1) {
-  //   oasis-align-images(vertical: vertical, swap: swap, margin: margin, item1, item2)
-  //   return
-  // }
-
-
 
   // use layout to measure measured-container
   layout(measured-container => {
-
-    // let content-type1 = check-content-type(item1)
-    // let content-type2 = check-content-type(item2)
-    // if content-type1 == "image" and content-type2 == "image" {
-    //   oasis-align-images(vertical: vertical, swap: swap, margin: margin, item1, image2)
-    // }
 
     // Relevant container side, depending on `vertical`.
     let container-side = if vertical { measured-container.height } else { measured-container.width }

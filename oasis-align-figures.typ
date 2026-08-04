@@ -18,9 +18,16 @@
       if input.body.func() == image {input.body.func()}
       else {panic("Figures must contain images! Otherwise, use `oasis-align`.")}
     }
-    else if input.children.at(0).func() == figure {
-      if input.children.at(0).body.func() == image {input.children.at(0).body.func()}
-      else {panic("Figures must contain images! Otherwise, use `oasis-align`.")}
+    else if repr(input.func()) == "sequence" {
+      if input.children.at(0).func() == figure {
+        if input.children.at(0).body.func() == image {input.children.at(0).body}
+        else {panic("Figures must contain images! Otherwise, use `oasis-align`.")}
+      }
+      else if input.children.at(0) == [ ] and input.children.at(1).func() == figure {
+        if  input.children.at(1).body.func() == image {input.children.at(1).body}
+        else {panic("Figures must contain images! Otherwise, use `oasis-align`.")}
+      }
+      else {panic("Sequence broken with " + repr(input.children.at(0)))}
     }
     else {panic("Arguments must be figures!")}
   }
@@ -32,7 +39,8 @@
     let container-side = if vertical { measured-container.height } else { measured-container.width }
     let paddings = process-padding(padding, container-side)
     let gutter = process-gutter(vertical, container-side)
-    let ratio = find-image-ratio(figure1, figure2, vertical)
+    // let ratio = find-image-ratio(figure1, figure2, vertical)
+    let ratio = find-image-ratio(image1, image2, vertical)
     
     let max-dim = container-side - gutter - paddings.first() - paddings.last()
     // Set widths of images

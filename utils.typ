@@ -1,7 +1,7 @@
 #let check-if-image(input) = type(input) == content and input.func() == image
 
 
-#let check-if-figure(input) = type(input) == content and ((input.func() == figure and input.body.func() == image) or (repr(input.func()) == "sequence" and input.children.at(0).func() == figure and input.children.at(0).body.func() == image))
+#let check-if-figure(input) = type(input) == content and ((input.func() == figure and input.body.func() == image) or (repr(input.func()) == "sequence" and (input.children.at(0).func() == figure and input.children.at(0).body.func() == image) or (input.children.at(0) == [ ] and input.children.at(1).func() == figure and input.children.at(1).body.func() == image)))
 
 #let split-layout(max-distance, fraction) = {
       let dim1 = fraction * max-distance
@@ -65,8 +65,8 @@
 }
 
 #let find-image-ratio(image1, image2, vertical) = {
-  let block1 = measure(image1)
-  let block2 = measure(image2)
+  let block1 = measure(block(image1, width: 100pt))
+  let block2 = measure(block(image2, width: 100pt))
 
   if vertical {(block1.height/block1.width)*block2.width/block2.height}
   else {(block1.width/block1.height)*block2.height/block2.width}

@@ -1,7 +1,7 @@
 [package]
 name = "oasis-align"
-version = "0.3.3"
-entrypoint = "oasis-align.typ"
+version = "0.4.0"
+entrypoint = "lib.typ"
 authors = ["@jdpieck"]
 license = "MIT"
 description = "Cleanly place content side by side with equal heights using automatic content sizing."

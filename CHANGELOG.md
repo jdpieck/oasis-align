@@ -1,3 +1,16 @@
+## 0.4.0 - 2026/08/04
+- added `padding` to all functions
+    - helps when you don't want the content spanning the full page
+- added `figure` variant of `oasis-align()`
+    - for when you want to align the images but not the caption text
+- added content ID system to automatically switch from `oasis-align()` to `oasis-align-images()` and `oasis-align-figures()` logic based on input content type
+    - increased performance of image-image and figure-figure alignment 
+    - added `override` parameter to override this behavior
+- major refactoring of codebases
+    - added help functions under `utils.typ`
+    - separated `image` and `figure` variants of `oasis-align()` into separate files
+- `README.md` now includes extra examples of use cases along with tips 
+
 ## 0.3.3 - 2026/01/08
 - fixed relative length issue for gutters
     - thanks to @Andrew15-5 for the fix!

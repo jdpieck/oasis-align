@@ -15,7 +15,7 @@
     assert(type(input) == content, message: "Arguments must be figures!")
 
     if input.func() == figure {
-      if input.body.func() == image {input.body.func()}
+      if input.body.func() == image {input.body}
       else {panic("Figures must contain images! Otherwise, use `oasis-align`.")}
     }
     else if repr(input.func()) == "sequence" {

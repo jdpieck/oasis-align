@@ -45,10 +45,10 @@
   assert(int-frac == none or check-fraction(int-frac), message:"Initial fraction must be between 0 and 1!")
   assert(int-frac == none or {int-frac >= range.first() and int-frac <= range.last()}, message:"Initial fraction must fall within user-defined range!")
   assert(check-fraction(min-frac), message: "Minimum fraction must be between 0 and 1!")
-  assert(range.last() - range.first() > min-frac, message: "The range must me larger than the minimum-fraction")
+  assert(range.last() - range.first() > min-frac, message: "The range must be larger than the minimum-fraction")
   assert(type(tolerance) == length, message: "Tolerance must be a length!")
   assert(force-frac == none or check-fraction(force-frac), message: "The forced dimension must be given in terms of a fraction!")
-  assert(type(max-iterations) == int, message: "The maximum number of iterations must be an integer! Lowering the number may find a solution quicker, but it may no be within tolerance.")
+  assert(type(max-iterations) == int, message: "The maximum number of iterations must be an integer! Lowering the number may find a solution quicker, but it may not be within tolerance.")
   assert(type(ruler) == bool, message: "Ruler can be turned on or off only using boolean!")
   assert(type(debug) == bool, message: "Debug feed can be turned on or off only using boolean!")
 
@@ -100,7 +100,7 @@
 
       // If there is no solution in the initial direction, change directions and reset the function.
       if frac-diff < frac-limit or frac < min-frac  or frac > 1 - min-frac {
-        warning([Changes to fraction are have exceed the `frac-limit`. Changing `dir`...])
+        warning([Changes to fraction have exceeded the `frac-limit`. Changing `dir`...])
         dir-change = dir-change + 1
         dir = dir *-1
         frac = start-frac

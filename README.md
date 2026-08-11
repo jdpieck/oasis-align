@@ -26,6 +26,9 @@ To see how `oasis-align` can be used in practice, check out my [Onshape boat tut
 
 
 Below are some more examples from the [Cyclone RoboSUb 2026 Technical Design Report](https://github.com/Cyclone-Robosub/TDR-2026/tree/main).
+![Overview figure with multiple layers of alignment](docs/sub-breakdown.jpg)
+[(link to source)](https://github.com/Cyclone-Robosub/TDR-2026/blob/a412d4f5d0af37cf83671bb12f52a204bb351453/2-design-strategy.typ#L21-L59)
+
 ![Tile layout as seen in a published technical report](docs/tile-layout.jpg)
 [(link to source)](https://github.com/Cyclone-Robosub/TDR-2026/blob/a412d4f5d0af37cf83671bb12f52a204bb351453/6.x-research.typ#L187-L212)
 
@@ -40,6 +43,8 @@ Below are some more examples from the [Cyclone RoboSUb 2026 Technical Design Rep
 A large portion of the following parameters have been made user-accessible for edge case scenarios in which the baseline function is unable to determine a solution. The parameters with defined values are the defaults and should only be changed if you are unable to achieve your desired output.
 
 ```typst
+#set grid(gutter: 2em)  // Set the length of the grid gutter to make space between aligned items
+
 #oasis-align(
   swap: false,          // boolean
   vertical: false,      // boolean
@@ -78,10 +83,10 @@ A large portion of the following parameters have been made user-accessible for e
 )
 ```
 
-*IMPORTANT: To change the size of the grid gutter in all functions, use `#set grid(column-gutter: length)` or `#set grid(row-gutter: length)`. This is necessary to allow for fixed rules that aren't possible with user-defined functions.*
+To change the size of the grid gutter in all functions, use `#set grid(column-gutter: length)` or `#set grid(row-gutter: length)`.
 
 ### `swap` (boolean)
-Swap the positions of `item1` and `item2` on the grid. You can achieve an identical output by manually switching the content of `item1` and `item2`. *Note that input parameters such as `forced-frac` and `int-frac` consider the content before it has been swapped.*
+Swap the positions of `item1` and `item2` on the grid. You can achieve an identical output by manually switching the content of `item1` and `item2`. *Note that input parameters such as `force-frac` and `int-frac` consider the content before it has been swapped.*
 
 ### `vertical` (boolean)
 Align the horizontal limits of the content when stacked vertically. This can be particularly useful when aligning images for presentations. 
@@ -127,13 +132,8 @@ The maximum number of iterations the function is allowed to attempt before termi
 
 ### `debug` (boolean)
 A toggle that lets you view internal function logs to see what is happening. Enable this if you would like to see a log of the function's process and suggestions for which parameters could be changed to resolve issues. 
-<!-- 
-### `item1` (content)
-Content that is aligned to 
-### `item2` (content) -->
-<!-- # FAQ
 
-## Why won't my image align nicely with my text -->
+<!-- ## Tips and Tricks -->
 
 
 ## How `oasis-align()` Works

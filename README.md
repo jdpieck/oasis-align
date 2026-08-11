@@ -13,12 +13,27 @@ and follow the instructions found under [configuration](#function-configuration-
 ![Animation of image being aligned with text](docs/image-with-text.gif)
 The same can be done with `figure()` instead of `image()`. 
 ### Image with Image
-`oasis-align()` automatically detects fixed aspect-ratio content like images and figures, using `oasis-align-images()` or `oasis-align-figures()` under the hood to find an exact analytical solution. *NOTE: directly passing the image path is deprecated.* 
+`oasis-align()` automatically detects fixed aspect-ratio content like images and figures, using `oasis-align-images()` or `oasis-align-figures()` under the hood to find an exact analytical solution. 
 ![Animation of image being aligned with another image](docs/image-with-image.gif)
+*NOTE: directly passing the image path is deprecated.* 
 ### Text with Text
 ![Animation of text being aligned with differently sized text](docs/text-with-text.gif)
-### Full Document Implementation
-To see how `oasis-align` can be used in practice, check out my [Onshape boat tutorial](https://github.com/jdpieck/Onshape-Boat-Tutorial) made using Typst!
+### In-Context Examples
+To see how `oasis-align` can be used in practice, check out my [Onshape boat tutorial](https://github.com/jdpieck/Onshape-Boat-Tutorial) made using Typst! Below is the one small section!
+
+![Excerpt from CAD tutorial](docs/boat-excerpt.jpg)
+[(link to source)](https://github.com/jdpieck/Onshape-Boat-Tutorial/blob/eab48c936ee50b4fa974325a712c33715cbc4fcd/src/main.typ#L98-L125)
+
+
+Below are some more examples from the [Cyclone RoboSUb 2026 Technical Design Report](https://github.com/Cyclone-Robosub/TDR-2026/tree/main).
+![Tile layout as seen in a published technical report](docs/tile-layout.jpg)
+[(link to source)](https://github.com/Cyclone-Robosub/TDR-2026/blob/a412d4f5d0af37cf83671bb12f52a204bb351453/6.x-research.typ#L187-L212)
+
+![Figures on the side of accompanying text](docs/thruster-info.jpg)
+[(link to source)](https://github.com/Cyclone-Robosub/TDR-2026/blob/a412d4f5d0af37cf83671bb12f52a204bb351453/6.x-change-log.typ#L19-L44)
+
+
+
 
 ## Function Configuration Parameters
 

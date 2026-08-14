@@ -12,6 +12,10 @@
   caption: [This is a caption]
 ) <thihng>]
 
+#oasis-align(
+  [Hello],
+  [World],
+)
 
 #oasis-align(
   // debug: true,

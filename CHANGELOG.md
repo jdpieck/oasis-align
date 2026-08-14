@@ -1,3 +1,7 @@
+## 0.4.1 - 2026/08/14
+- fixed operator precedence error in `check-if-figure`
+    - thank to @VinciYan for the fix!
+
 ## 0.4.0 - 2026/08/04
 - added `padding` to all functions
     - helps when you don't want the content spanning the full page
